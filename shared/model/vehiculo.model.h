@@ -1,5 +1,6 @@
-#include <iostream>;
-#include "../enum/vehiculos.enum.h";
+#pragma once
+#include <string>
+#include "../enum/vehiculos.enum.h"
 using namespace std;
 
 struct Vehiculo {
