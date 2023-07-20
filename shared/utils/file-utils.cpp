@@ -1,19 +1,25 @@
 #include <iostream>
 #include <stdio.h>
-#include <string.h>
+#include "../model/repartidor.model.h"
 using namespace std;
 
-
-void writeFiles(Repartidor v[], int size) {
-  FILE *motoFile = fopen("../../data/RepMOTO.dat", "ab");
-  FILE *autoFile = fopen("../../data/RepAuto.dat", "ab");
-  FILE *camionFile = fopen("../../data/RepCamion.dat", "ab");
-  FILE *camionetaFile = fopen("../../data/RepCamioneta.dat", "ab");
-
+void writeToFiles(Repartidor repartidores[], int size) {
+FILE *autoFile = fopen("./data/RepAuto.dat", "wb"); 
+FILE *motoFile = fopen("./data/RepMoto.dat", "wb"); 
+FILE *camionFile = fopen("./data/RepCamion.dat", "wb"); 
+FILE *camionetaFile = fopen("./data/RepCamioneta.dat", "wb"); 
+  
   for (int i = 0; i < size; i ++) {
-    if (v[i].vehiculo.tipo == "MOTO") fwrite(&Repartidor, sizeof(Repartidor), 1, motoFile);
-    if (v[i].vehiculo.tipo == "AUTO") fwrite(&Repartidor, sizeof(Repartidor), 1, autoFile);
-    if (v[i].vehiculo.tipo == "CAMION") fwrite(&Repartidor, sizeof(Repartidor), 1, camionFile);
-    if (v[i].vehiculo.tipo == "CAMIONETA") fwrite(&Repartidor, sizeof(Repartidor), 1, camionetaFile);
+    if(repartidores[i].vehiculo.tipo == 0) fwrite(&repartidores[i], sizeof(Repartidor), 1, autoFile);
+    if(repartidores[i].vehiculo.tipo == 1) fwrite(&repartidores[i], sizeof(Repartidor), 1, motoFile);
+    if(repartidores[i].vehiculo.tipo == 2) fwrite(&repartidores[i], sizeof(Repartidor), 1, camionFile);
+    if(repartidores[i].vehiculo.tipo == 3) fwrite(&repartidores[i], sizeof(Repartidor), 1, camionetaFile);
   }
+
+  fclose(autoFile);
+  fclose(motoFile);
+  fclose(camionFile);
+  fclose(camionetaFile);
 }
+  
+
