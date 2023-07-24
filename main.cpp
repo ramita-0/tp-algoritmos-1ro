@@ -3,6 +3,7 @@
 #include "./shared/utils/file-utils.h"
 #include "./shared/model/repartidor.model.h"
 #include "./entities/repartidores/repartidores-controller.h"
+#include "./modules/reports-controller.h"
 using namespace std;
 
 void printMainMenu(bool error);
@@ -21,7 +22,7 @@ int main() {
         break;
       case 2:
         error = false;
-        // TODO: informesMain();
+        informesMain();
         break;
       case 0:
         break;
