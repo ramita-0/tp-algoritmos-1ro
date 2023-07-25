@@ -1,3 +1,4 @@
 #pragma once
+#include "../../shared/model/repartidor.model.h"
 
-void repartidoresMain();
+void repartidoresMain(Repartidor[], int);

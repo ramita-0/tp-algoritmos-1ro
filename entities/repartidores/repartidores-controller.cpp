@@ -1,11 +1,12 @@
 #include <iostream>
 #include <stdlib.h>
 #include "repartidores-controller.h"
+#include "../../shared/model/repartidor.model.h"
 using namespace std;
 
 void printRepartidoresMenu(bool error);
 
-void repartidoresMain() {
+void repartidoresMain(Repartidor repartidores[], int cantidadRepartidoresActuales) {
   unsigned userInput = 0;
   bool error = false;
 

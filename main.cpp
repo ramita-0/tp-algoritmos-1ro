@@ -12,17 +12,20 @@ int main() {
   unsigned userInput = 0;
   bool error = false;
 
+  Repartidor repartidores[1120];
+  int cantidadRepartidoresActuales = 0;
+
   do {
     printMainMenu(error);
     cin >> userInput; // TODO: Si el user mete un string, se rompe, handlear este caso y poner el error = true
     switch (userInput) {
       case 1:
         error = false;
-        repartidoresMain();
+        repartidoresMain(repartidores, cantidadRepartidoresActuales);
         break;
       case 2:
         error = false;
-        informesMain();
+        informesMain(repartidores, cantidadRepartidoresActuales);
         break;
       case 0:
         break;
