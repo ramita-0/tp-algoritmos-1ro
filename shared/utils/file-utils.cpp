@@ -4,10 +4,10 @@
 using namespace std;
 
 void writeToFiles(Repartidor repartidores[], int size) {
-FILE *autoFile = fopen("./data/RepAuto.dat", "wb"); 
-FILE *motoFile = fopen("./data/RepMoto.dat", "wb"); 
-FILE *camionFile = fopen("./data/RepCamion.dat", "wb"); 
-FILE *camionetaFile = fopen("./data/RepCamioneta.dat", "wb"); 
+  FILE *autoFile = fopen("./data/RepAuto.dat", "wb"); 
+  FILE *motoFile = fopen("./data/RepMoto.dat", "wb"); 
+  FILE *camionFile = fopen("./data/RepCamion.dat", "wb"); 
+  FILE *camionetaFile = fopen("./data/RepCamioneta.dat", "wb"); 
   
   for (int i = 0; i < size; i ++) {
     if(repartidores[i].vehiculo.tipo == 0) fwrite(&repartidores[i], sizeof(Repartidor), 1, autoFile);
