@@ -12,7 +12,7 @@ int main() {
   unsigned userInput = 0;
   bool error = false;
 
-  Repartidor repartidores[1120];
+  Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
 
   do {

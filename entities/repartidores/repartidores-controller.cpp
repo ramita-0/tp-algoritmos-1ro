@@ -2,21 +2,23 @@
 #include <stdlib.h>
 #include "repartidores-controller.h"
 #include "../../shared/model/repartidor.model.h"
+#include "./repartidores-actions.h"
 using namespace std;
 
 void printRepartidoresMenu(bool error);
 
-void repartidoresMain(Repartidor repartidores[], int cantidadRepartidoresActuales) {
+void repartidoresMain(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
   unsigned userInput = 0;
   bool error = false;
 
   do {
     printRepartidoresMenu(error);
+    if (cantidadRepartidoresActuales == 1120) cout << "Aviso: Maximo de repartidores alcanzado!"<<endl<<endl;
     cin >> userInput; // TODO: Si el user mete un string, se rompe, handlear este caso y poner el error = true
     switch (userInput) {
       case 1:
         error = false;
-        // TODO: Funcion de alta definida en repartidores-actions.cpp
+        altaRepartidores(repartidores, cantidadRepartidoresActuales);
         break;
       case 0:
         error = false;

@@ -3,9 +3,9 @@
 #include "./vehiculo.model.h"
 using namespace std;
 struct Repartidor {
-  // string zona ?
   string nombre;
   string apellido;
   int dni;
+  int zona;
   Vehiculo vehiculo;
 };
