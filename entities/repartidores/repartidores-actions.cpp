@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "./repartidores-actions.h"
 #include "../../shared/model/repartidor.model.h"
-
-void printMatrix(int mat[5][14]); // function made for testing purposes
+#include "../../shared/utils/file-utils.h"
+using namespace std;
 
 void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
   int repartidoresRestantes = 1120 - cantidadRepartidoresActuales;
@@ -15,7 +15,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
 
     zonasVehiculosSum[vehiculoRepartidorActual][zonaRepartidorActual - 1] ++;
   }
-  
+
   int intUserInput;
   string stringUserInput;
 
@@ -31,7 +31,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         system("cls");
         if (maxRepZonaVehiculoError) cout << "El vehiculo y zona seleccionados, cuentan con el maximo de repartidores posibles, por favor elija otra combinacion"<<endl<<endl;
         if (error) cout << "Opcion incorrecta!"<<endl<<endl;
-        cout << "Ingrese la zona del nuevo repartidor (1-14): "<<endl;
+        cout << "Ingrese la zona del nuevo repartidor (1-14): "<<endl<<endl;
         cin >> intUserInput; // TODO: validar que no se meta un string.
       
         if (intUserInput >= 1 && intUserInput <= 14) {
@@ -89,22 +89,30 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
     cin >> intUserInput; // TODO: validar que no se meta un string
     newRepartidor.dni = intUserInput; 
 
-    
-    // TODO: escribir en archivo writeToFiles() y que dentro de esa fucnion, este el sort!
     repartidores[cantidadRepartidoresActuales] = newRepartidor;
     zonasVehiculosSum[newRepartidor.vehiculo.tipo][newRepartidor.zona - 1] ++;
     cantidadRepartidoresActuales ++;
     repartidoresRestantes --;
+
+    do {
+      system("cls");
+      if (error) cout << "Opcion incorrecta!"<<endl<<endl;
+      cout << "Continuar ingresando repartidores?"<<endl;
+      cout << "1 - Si"<<endl;
+      cout << "0 - Guardar y volver"<<endl<<endl;
+      cin >> intUserInput; // TODO: Validar input que no sea un string
+
+      if (intUserInput == 1) {
+        error = false;
+        break;
+      }
+      if (intUserInput == 0) {
+        error = false;
+        writeToFiles(repartidores, cantidadRepartidoresActuales); // TODO: Testear!
+        return;
+      }
+      error = true;
+    } while(true);
   }
   return;
-}
-
-// function made for testing purposes.
-void printMatrix(int mat[5][14]) {
-  for (int i = 0; i < 5; i ++) {
-    for (int j = 0; j < 14; j ++) {
-      cout << mat[i][j] << " ";
-    }
-    cout<<endl;
-  }
 }
