@@ -3,18 +3,14 @@
 #include "./repartidores-actions.h"
 #include "../../shared/model/repartidor.model.h"
 #include "../../shared/utils/file-utils.h"
+#include "../../shared/utils/general-utils.h"
 using namespace std;
 
 void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
   int repartidoresRestantes = 1120 - cantidadRepartidoresActuales;
 
   int zonasVehiculosSum[5][14] = {0};
-  for (int i = 0; i < cantidadRepartidoresActuales; i ++){
-    int zonaRepartidorActual = repartidores[i].zona;
-    int vehiculoRepartidorActual = repartidores[i].vehiculo.tipo;
-
-    zonasVehiculosSum[vehiculoRepartidorActual][zonaRepartidorActual - 1] ++;
-  }
+  generarSumatoriaVehiculosZona(zonasVehiculosSum, repartidores, cantidadRepartidoresActuales);
 
   int intUserInput;
   string stringUserInput;
