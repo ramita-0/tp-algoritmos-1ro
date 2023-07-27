@@ -6,7 +6,7 @@ using namespace std;
 
 void printInformesMenu(bool);
 
-void informesMain()
+void informesMain(Repartidor repartidores[], int cantidadRepartidoresActuales)
 {
     unsigned userInput = 0;
     bool error = false;

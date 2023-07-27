@@ -1,4 +1,4 @@
 #pragma once
 enum Vehiculos {
-  AUTO, MOTO, CAMION, CAMIONETA
+  AUTO=1, MOTO, CAMION, CAMIONETA
 };
