@@ -3,13 +3,13 @@
 
 void ordenamientoDeRepartidores(Repartidor repartidores[], int size)
 {
-     unsigned i=1,j;
+    int i=0;
     Repartidor aux;
     bool cambio;
     do
     {
         cambio=false;
-        for(j=0;j<size-i;j++)
+        for(int j=0;j<size-i;j++)
         {
             if(repartidores[j].dni>repartidores[j+1].dni)
             {
