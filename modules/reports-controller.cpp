@@ -1,5 +1,6 @@
 #include "../shared/model/repartidor.model.h"
 #include "./reports-controller.h"
+#include "./reports-actions.h"
 #include <iostream>
 #include <stdlib.h>
 using namespace std;
@@ -24,7 +25,7 @@ void informesMain(Repartidor repartidores[], int cantidadRepartidoresActuales)
             break;
         case 3:
             error = false;
-            // TODO: Generar informe caso 3
+            Informe3(repartidores,cantidadRepartidoresActuales);
             break;
         case 0:
             return;
