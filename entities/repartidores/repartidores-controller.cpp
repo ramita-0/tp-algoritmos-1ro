@@ -8,7 +8,7 @@ using namespace std;
 void printRepartidoresMenu(bool error);
 
 void repartidoresMain(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
-  unsigned userInput = 0;
+  int userInput = 0;
   bool error = false;
 
   do {
@@ -21,7 +21,6 @@ void repartidoresMain(Repartidor repartidores[], int& cantidadRepartidoresActual
         altaRepartidores(repartidores, cantidadRepartidoresActuales);
         break;
       case 0:
-        error = false;
         return;
       default:
         error = true;

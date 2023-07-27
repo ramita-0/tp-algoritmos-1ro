@@ -9,7 +9,7 @@ using namespace std;
 void printMainMenu(bool error);
 
 int main() {
-  unsigned userInput = 0;
+  int userInput = 0;
   bool error = false;
 
   Repartidor repartidores[1120] = {};
@@ -28,13 +28,11 @@ int main() {
         informesMain(repartidores, cantidadRepartidoresActuales);
         break;
       case 0:
-        break;
+        return 0;
       default:
         error = true;
     }
   } while(userInput != 0);
-
-  return 0;
 }
 
 void printMainMenu(bool error) {
