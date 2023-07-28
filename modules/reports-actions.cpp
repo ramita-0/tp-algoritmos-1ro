@@ -1,7 +1,7 @@
 #include <iostream>
 #include "../shared/model/repartidor.model.h"
 #include "./reports-actions.h"
-#include "../shared/utils/general-utils.cpp"
+#include "../shared/utils/general-utils.h"
 using namespace std;
 
 void repartidoresPorZona(int matriz[][14], int size, int vectorSuma[]);
