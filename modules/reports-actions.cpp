@@ -1,5 +1,6 @@
 #include <iostream>
-#include "../model/repartidor.model.h"
+#include "../shared/model/repartidor.model.h"
+#include "./reports-actions.h"
 #include "../shared/utils/general-utils.cpp"
 using namespace std;
 

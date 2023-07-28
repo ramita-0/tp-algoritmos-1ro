@@ -1,4 +1,4 @@
 #pragma once
-#include "../model/repartidor.model.h"
+#include "../shared/model/repartidor.model.h"
 
 void Informe3 (Repartidor[], int);
