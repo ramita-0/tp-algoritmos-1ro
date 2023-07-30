@@ -4,7 +4,7 @@
 #include "../shared/utils/general-utils.h"
 using namespace std;
 
-void repartidoresPorZona(int matriz[][14], int size, int vectorSuma[]);
+void repartidoresPorZona(int matriz[4][14], int size, int vectorSuma[]);
 int maximoZona(int vectorSuma[]);
 void informeDeZonas(int vectorSuma[], int maximo);
 
@@ -19,11 +19,11 @@ void informarZonasConMayorCantidadDeRepartidores (Repartidor repartidores[], int
   informeDeZonas(vectorSuma,maximo);
 }
 
-void repartidoresPorZona(int matriz[][14], int size, int vectorSuma[])
+void repartidoresPorZona(int matriz[4][14], int size, int vectorSuma[])
 {
   int suma=0;
   for (int i=0; i<14; i++) {
-    for (int j=0; j<5; j++) {
+    for (int j=0; j<4; j++) {
       suma+=matriz[j][i];
     }
     vectorSuma[i]=suma;
