@@ -2,3 +2,4 @@
 #include "../shared/model/repartidor.model.h"
 
 void informarZonasConMayorCantidadDeRepartidores (Repartidor[], int);
+void generarInformeTransportesNoDisponibles(Repartidor[], int);

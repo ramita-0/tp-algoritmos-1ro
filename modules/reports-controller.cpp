@@ -21,7 +21,7 @@ void informesMain(Repartidor repartidores[], int cantidadRepartidoresActuales)
             break;
         case 2:
             error = false;
-            // TODO: Generar informe caso 2
+            generarInformeTransportesNoDisponibles(repartidores, cantidadRepartidoresActuales);
             break;
         case 3:
             error = false;

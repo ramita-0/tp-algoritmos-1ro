@@ -8,6 +8,10 @@ void repartidoresPorZona(int matriz[4][14], int size, int vectorSuma[]);
 int maximoZona(int vectorSuma[]);
 void informeDeZonas(int vectorSuma[], int maximo);
 
+void mostrarTransportesNoDisponibles(int arr[]);
+void sumatoriaVehiculosTotaleseEntreZonas (int arr[], int matriz[4][14]);
+string retornarTipoVehiculo(int numero);
+
 void informarZonasConMayorCantidadDeRepartidores (Repartidor repartidores[], int cantidadRepartidoresActuales)
 {
   int vectorSuma[14]={0};
@@ -50,6 +54,64 @@ void informeDeZonas(int vectorSuma[], int m)
       if(vectorSuma[i] == m) cout<<i+1<<" ";
     }
   }
+  cout<<endl<<endl<<"Ingrese cualquier numero para volver"<<endl<<endl;
+  string variable;
+  cin>>variable;
+}
+
+void generarInformeTransportesNoDisponibles(Repartidor repartidores[], int cantidadRepartidoresActuales) {
+  int mat[4][14] = {0};
+  generarSumatoriaVehiculosZona(mat, repartidores, cantidadRepartidoresActuales);
+
+  int sumatoriaVehiculos[4] = {0};
+  sumatoriaVehiculosTotaleseEntreZonas(sumatoriaVehiculos, mat);
+  mostrarTransportesNoDisponibles(sumatoriaVehiculos);
+}
+
+void sumatoriaVehiculosTotaleseEntreZonas (int arr[], int matriz[4][14])
+{
+  for (int i = 0; i < 4; i ++) {
+    int suma = 0;
+    for (int j = 0; j < 14; j++) {
+      suma += matriz[i][j];
+    }
+    arr[i] = suma;
+  }
+}
+
+string retornarTipoVehiculo(int numero) {
+  switch (numero) {
+    case 0:
+      return "Auto";
+    case 1:
+      return "Moto";
+    case 2:
+      return "Camion";
+    case 3:
+      return "Camioneta";
+  }
+}
+
+void mostrarTransportesNoDisponibles(int arr[])
+{
+  system("cls");
+  bool transportesNoDisponibles = false;
+
+  for (int i = 0; i < 4; i++) {
+    if (arr[i] == 0) {
+      transportesNoDisponibles = true;
+      break;
+    }
+  }
+
+  if (transportesNoDisponibles) {
+    cout << "Los vehiculos no disponibles son: ";
+    for (int i = 0; i < 4; i++) {
+      if (arr[i] == 0) cout << retornarTipoVehiculo(i)<<" ";
+    }
+  }
+  else cout<< "Todos los tipos de vehiculos tienen repartidores.";
+
   cout<<endl<<endl<<"Ingrese cualquier numero para volver"<<endl<<endl;
   string variable;
   cin>>variable;
