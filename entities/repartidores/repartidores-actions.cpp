@@ -9,7 +9,7 @@ using namespace std;
 void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
   int repartidoresRestantes = 1120 - cantidadRepartidoresActuales;
 
-  int zonasVehiculosSum[5][14] = {0};
+  int zonasVehiculosSum[4][14] = {0};
   generarSumatoriaVehiculosZona(zonasVehiculosSum, repartidores, cantidadRepartidoresActuales);
 
   int intUserInput;
@@ -31,7 +31,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         cin >> intUserInput; // TODO: validar que no se meta un string.
       
         if (intUserInput >= 1 && intUserInput <= 14) {
-          newRepartidor.zona = intUserInput;
+          newRepartidor.zona = intUserInput - 1;
           error = false;
           break;
         }
@@ -49,14 +49,14 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         cin >> intUserInput; // TODO: validar que no se meta un string.
 
         if (intUserInput >= 1 && intUserInput <= 4) {
-          newRepartidor.vehiculo.tipo = Vehiculos(intUserInput);
+          newRepartidor.vehiculo.tipo = Vehiculos(intUserInput - 1);
           error = false;
           break;
         }
         else error = true;
       } while(intUserInput <= 1 || intUserInput >= 4);
 
-      if (zonasVehiculosSum[newRepartidor.vehiculo.tipo][newRepartidor.zona - 1] + 1 > 20) {
+      if (zonasVehiculosSum[newRepartidor.vehiculo.tipo][newRepartidor.zona] + 1 > 20) {
         maxRepZonaVehiculoError = true;
       }
       else break;
@@ -86,7 +86,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
     newRepartidor.dni = intUserInput; 
 
     repartidores[cantidadRepartidoresActuales] = newRepartidor;
-    zonasVehiculosSum[newRepartidor.vehiculo.tipo][newRepartidor.zona - 1] ++;
+    zonasVehiculosSum[newRepartidor.vehiculo.tipo][newRepartidor.zona] ++;
     cantidadRepartidoresActuales ++;
     repartidoresRestantes --;
 
