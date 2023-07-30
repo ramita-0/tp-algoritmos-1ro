@@ -59,7 +59,7 @@ void informeDeZonas(int vectorSuma[], int m)
   cin>>variable;
 }
 
-void generarInformeTransportesNoDisponibles(Repartidor repartidores[], int cantidadRepartidoresActuales) {
+void informarTransportesNoDisponibles(Repartidor repartidores[], int cantidadRepartidoresActuales) {
   int mat[4][14] = {0};
   generarSumatoriaVehiculosZona(mat, repartidores, cantidadRepartidoresActuales);
 
