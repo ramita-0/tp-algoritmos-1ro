@@ -17,6 +17,7 @@ void informesMain(Repartidor repartidores[], int cantidadRepartidoresActuales)
         switch (userInput) {
         case 1:
             error = false;
+            transportesPorZona(repartidores,cantidadRepartidoresActuales);
             //TODO: Generar informe caso 1
             break;
         case 2:
