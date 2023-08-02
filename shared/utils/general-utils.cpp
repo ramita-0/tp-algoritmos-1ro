@@ -11,22 +11,14 @@ void generarSumatoriaVehiculosZona(int mat[4][14], Repartidor repartidores[], in
 }
 
 void ordenamientoDeRepartidores(Repartidor repartidores[], int size) {
-  int i=0;
-  Repartidor aux;
-  bool cambio;
-  do
-  {
-      cambio=false;
-      for(int j=0;j<size-i;j++)
-      {
-          if(repartidores[j].dni>repartidores[j+1].dni)
-          {
-              aux=repartidores[j];
-              repartidores[j]=repartidores[j+1];
-              repartidores[j+1]=aux;
-              cambio=true;
-          }
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size - i - 1; j++) {
+      if (repartidores[j].dni > repartidores[j + 1].dni) {
+        Repartidor temp = repartidores[j];
+        repartidores[j] = repartidores[j + 1];
+        repartidores[j + 1] = temp;
       }
-      i++;
-  }while(i<size && cambio);
+    }
+  }
+  return;
 }

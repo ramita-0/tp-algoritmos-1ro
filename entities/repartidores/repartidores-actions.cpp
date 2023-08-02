@@ -59,9 +59,12 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       if (zonasVehiculosSum[newRepartidor.vehiculo.tipo][newRepartidor.zona] + 1 > 20) {
         maxRepZonaVehiculoError = true;
       }
-      else break;
+      else {
+        maxRepZonaVehiculoError = false;
+        break;
+      }
     }
-    
+
     system("cls");
     cout << "Ingrese la patente del vehiculo"<<endl<<endl;
     cin >> stringUserInput;
