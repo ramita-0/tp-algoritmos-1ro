@@ -117,7 +117,7 @@ void mostrarTransportesNoDisponibles(int arr[])
   cin>>variable;
 }
 
-void transportesPorZona(Repartidor repartidores[], int cantidadRepartidoresActuales )
+void informarCantidadTransportesPorZona(Repartidor repartidores[], int cantidadRepartidoresActuales )
 {
     int M[4][14]={0};
     generarSumatoriaVehiculosZona(M,repartidores,cantidadRepartidoresActuales);
