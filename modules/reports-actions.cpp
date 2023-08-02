@@ -15,7 +15,7 @@ string retornarTipoVehiculo(int numero);
 void informarZonasConMayorCantidadDeRepartidores (Repartidor repartidores[], int cantidadRepartidoresActuales)
 {
   int vectorSuma[14]={0};
-  int M[5][14]={0};
+  int M[4][14]={0};
   int maximo;
   generarSumatoriaVehiculosZona(M,repartidores,cantidadRepartidoresActuales);
   repartidoresPorZona(M,cantidadRepartidoresActuales,vectorSuma);
@@ -116,3 +116,27 @@ void mostrarTransportesNoDisponibles(int arr[])
   string variable;
   cin>>variable;
 }
+
+void informarCantidadTransportesPorZona(Repartidor repartidores[], int cantidadRepartidoresActuales )
+{
+    int M[4][14]={0};
+    generarSumatoriaVehiculosZona(M,repartidores,cantidadRepartidoresActuales);
+    for(int i=0; i<4; i++)
+    {
+        if(i==0) cout << "Zona:      01  02  03  04  05  06  07  08  09  10  11  12  13  14"<<endl;
+        string tipo = retornarTipoVehiculo(i);
+        cout << tipo;
+        if(i==0 || i==1) cout << ":      ";
+        if(i==2) cout << ":    ";  
+        if(i==3) cout << ": ";
+        for(int j=0; j<14; j++)
+        {
+            if(M[i][j]<10) cout << "0"<< M[i][j]<<"  ";
+            if(M[i][j]>=10) cout << M[i][j]<<"  ";
+        }
+        cout<<endl;
+    }
+    string out;
+    cin>>out;
+}
+
