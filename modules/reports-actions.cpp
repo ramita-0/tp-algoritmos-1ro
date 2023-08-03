@@ -149,7 +149,7 @@ void informarCantidadTransportesPorZona(Repartidor repartidores[], int cantidadR
     }
     cout<<endl;
   }
-  cout << "Ingrese cualquier numero para volver"<<endl<<endl;
+  cout <<endl<< "Ingrese cualquier numero para volver"<<endl<<endl;
   string out;
   cin>>out;
   return;
