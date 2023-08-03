@@ -21,6 +21,7 @@ void informarZonasConMayorCantidadDeRepartidores (Repartidor repartidores[], int
   repartidoresPorZona(M,cantidadRepartidoresActuales,vectorSuma);
   maximo=maximoZona(vectorSuma);
   informeDeZonas(vectorSuma,maximo);
+  return;
 }
 
 void repartidoresPorZona(int matriz[4][14], int size, int vectorSuma[])
@@ -33,6 +34,7 @@ void repartidoresPorZona(int matriz[4][14], int size, int vectorSuma[])
     vectorSuma[i]=suma;
     suma=0;
   }
+  return;
 }
 
 int maximoZona(int vectorSuma[])
@@ -57,6 +59,7 @@ void informeDeZonas(int vectorSuma[], int m)
   cout<<endl<<endl<<"Ingrese cualquier numero para volver"<<endl<<endl;
   string variable;
   cin>>variable;
+  return;
 }
 
 void informarTransportesNoDisponibles(Repartidor repartidores[], int cantidadRepartidoresActuales) {
@@ -66,6 +69,7 @@ void informarTransportesNoDisponibles(Repartidor repartidores[], int cantidadRep
   int sumatoriaVehiculos[4] = {0};
   sumatoriaVehiculosTotaleseEntreZonas(sumatoriaVehiculos, mat);
   mostrarTransportesNoDisponibles(sumatoriaVehiculos);
+  return;
 }
 
 void sumatoriaVehiculosTotaleseEntreZonas (int arr[], int matriz[4][14])
@@ -77,19 +81,26 @@ void sumatoriaVehiculosTotaleseEntreZonas (int arr[], int matriz[4][14])
     }
     arr[i] = suma;
   }
+  return;
 }
 
 string retornarTipoVehiculo(int numero) {
+  string vehiculo;
   switch (numero) {
     case 0:
-      return "Auto";
+      vehiculo = "Auto";
+      break;
     case 1:
-      return "Moto";
+      vehiculo = "Moto";
+      break;
     case 2:
-      return "Camion";
+      vehiculo = "Camion";
+      break;
     case 3:
-      return "Camioneta";
+      vehiculo = "Camioneta";
+      break;
   }
+  return vehiculo;
 }
 
 void mostrarTransportesNoDisponibles(int arr[])
@@ -115,28 +126,32 @@ void mostrarTransportesNoDisponibles(int arr[])
   cout<<endl<<endl<<"Ingrese cualquier numero para volver"<<endl<<endl;
   string variable;
   cin>>variable;
+  return;
 }
 
 void informarCantidadTransportesPorZona(Repartidor repartidores[], int cantidadRepartidoresActuales )
 {
-    int M[4][14]={0};
-    generarSumatoriaVehiculosZona(M,repartidores,cantidadRepartidoresActuales);
-    for(int i=0; i<4; i++)
+  system("cls");
+  int M[4][14]={0};
+  generarSumatoriaVehiculosZona(M,repartidores,cantidadRepartidoresActuales);
+  for(int i=0; i<4; i++)
+  {
+    if(i==0) cout << "Zona:      01  02  03  04  05  06  07  08  09  10  11  12  13  14"<<endl;
+    string tipo = retornarTipoVehiculo(i);
+    cout << tipo;
+    if(i==0 || i==1) cout << ":      ";
+    if(i==2) cout << ":    ";  
+    if(i==3) cout << ": ";
+    for(int j=0; j<14; j++)
     {
-        if(i==0) cout << "Zona:      01  02  03  04  05  06  07  08  09  10  11  12  13  14"<<endl;
-        string tipo = retornarTipoVehiculo(i);
-        cout << tipo;
-        if(i==0 || i==1) cout << ":      ";
-        if(i==2) cout << ":    ";  
-        if(i==3) cout << ": ";
-        for(int j=0; j<14; j++)
-        {
-            if(M[i][j]<10) cout << "0"<< M[i][j]<<"  ";
-            if(M[i][j]>=10) cout << M[i][j]<<"  ";
-        }
-        cout<<endl;
+      if(M[i][j]<10) cout << "0"<< M[i][j]<<"  ";
+      if(M[i][j]>=10) cout << M[i][j]<<"  ";
     }
-    string out;
-    cin>>out;
+    cout<<endl;
+  }
+  cout << "Ingrese cualquier numero para volver"<<endl<<endl;
+  string out;
+  cin>>out;
+  return;
 }
 
