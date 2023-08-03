@@ -107,7 +107,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       }
       if (intUserInput == 0) {
         error = false;
-        writeToFiles(repartidores, cantidadRepartidoresActuales); // TODO: Testear!
+        writeToFiles(repartidores, cantidadRepartidoresActuales);
         return;
       }
       error = true;
