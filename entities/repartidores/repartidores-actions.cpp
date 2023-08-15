@@ -115,6 +115,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
     repartidoresRestantes --;
 
     do {
+      // TODO: refactor this part to match the do... while with switch case used across the programm
       system("cls");
       if (error) cout << "Opcion incorrecta!"<<endl<<endl;
       cout << "Continuar ingresando repartidores?"<<endl;
