@@ -1,39 +1,45 @@
+#include <iostream>
+#include <stdlib.h>
+#include <limits>
 #include "../shared/model/repartidor.model.h"
 #include "./reports-controller.h"
 #include "./reports-actions.h"
-#include <iostream>
-#include <stdlib.h>
 using namespace std;
 
 void printInformesMenu(bool);
 
-void informesMain(Repartidor repartidores[], int cantidadRepartidoresActuales)
-{
-    unsigned userInput = 0;
-    bool error = false;
-    do {
-        printInformesMenu(error);
-        cin >> userInput; // TODO: Si el user mete un string, se rompe, handlear este caso y poner el error = true
-        switch (userInput) {
-        case 1:
-            error = false;
-            informarCantidadTransportesPorZona(repartidores,cantidadRepartidoresActuales);
-            break;
-        case 2:
-            error = false;
-            informarTransportesNoDisponibles(repartidores, cantidadRepartidoresActuales);
-            break;
-        case 3:
-            error = false;
-            informarZonasConMayorCantidadDeRepartidores(repartidores, cantidadRepartidoresActuales);
-            break;
-        case 0:
-            return;
-        default:
-            error = true;
-        }
-        
-    } while(userInput != 0);
+void informesMain(Repartidor repartidores[], int cantidadRepartidoresActuales) {
+  int userInput = 999;
+  bool error = false;
+
+  do {
+    printInformesMenu(error);
+    cin >> userInput;
+    if (cin.fail()) {
+      error = true;
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      userInput = 999;
+    }
+    switch (userInput) {
+    case 1:
+      error = false;
+      informarCantidadTransportesPorZona(repartidores,cantidadRepartidoresActuales);
+      break;
+    case 2:
+      error = false;
+      informarTransportesNoDisponibles(repartidores, cantidadRepartidoresActuales);
+      break;
+    case 3:
+      error = false;
+      informarZonasConMayorCantidadDeRepartidores(repartidores, cantidadRepartidoresActuales);
+      break;
+    case 0:
+      return;
+    default:
+      error = true;
+    }
+  } while(true);
 }
 
 

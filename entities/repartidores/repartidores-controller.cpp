@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <limits>
 #include "repartidores-controller.h"
 #include "../../shared/model/repartidor.model.h"
 #include "./repartidores-actions.h"
@@ -8,25 +9,30 @@ using namespace std;
 void printRepartidoresMenu(bool error);
 
 void repartidoresMain(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
-  unsigned userInput = 0;
+  int userInput = 999;
   bool error = false;
 
   do {
     printRepartidoresMenu(error);
     if (cantidadRepartidoresActuales == 1120) cout << "Aviso: Maximo de repartidores alcanzado!"<<endl<<endl;
-    cin >> userInput; // TODO: Si el user mete un string, se rompe, handlear este caso y poner el error = true
+    cin >> userInput;
+    if (cin.fail()) {
+      error = true;
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      userInput = 999;
+    }
     switch (userInput) {
       case 1:
         error = false;
         altaRepartidores(repartidores, cantidadRepartidoresActuales);
         break;
       case 0:
-        error = false;
         return;
       default:
         error = true;
     }
-  } while(userInput != 0);
+  } while(true);
 }
 
 void printRepartidoresMenu(bool error) {

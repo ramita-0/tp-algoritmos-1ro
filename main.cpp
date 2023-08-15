@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <limits>
 #include "./shared/utils/file-utils.h"
 #include "./shared/model/repartidor.model.h"
 #include "./entities/repartidores/repartidores-controller.h"
@@ -9,7 +10,7 @@ using namespace std;
 void printMainMenu(bool error);
 
 int main() {
-  unsigned userInput = 0;
+  int userInput = 999;
   bool error = false;
 
   Repartidor repartidores[1120] = {};
@@ -17,7 +18,13 @@ int main() {
 
   do {
     printMainMenu(error);
-    cin >> userInput; // TODO: Si el user mete un string, se rompe, handlear este caso y poner el error = true
+    cin >> userInput;
+    if (cin.fail()) {
+      error = true;
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
+      userInput = 999;
+    }
     switch (userInput) {
       case 1:
         error = false;
@@ -28,13 +35,11 @@ int main() {
         informesMain(repartidores, cantidadRepartidoresActuales);
         break;
       case 0:
-        break;
+        return 0;
       default:
         error = true;
     }
-  } while(userInput != 0);
-
-  return 0;
+  } while(true);
 }
 
 void printMainMenu(bool error) {
