@@ -40,10 +40,9 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         if (intUserInput >= 1 && intUserInput <= 14) {
           newRepartidor.zona = intUserInput - 1;
           error = false;
-          break;
         }
         else error = true;
-      } while (intUserInput <= 1 || intUserInput >= 14);
+      } while (error);
 
       do { // input vehiculo loop
         system("cls");
@@ -62,12 +61,11 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         }
 
         if (intUserInput >= 1 && intUserInput <= 4) {
-          newRepartidor.vehiculo.tipo = Vehiculos(intUserInput - 1);
           error = false;
-          break;
+          newRepartidor.vehiculo.tipo = Vehiculos(intUserInput - 1);
         }
         else error = true;
-      } while(intUserInput <= 1 || intUserInput >= 4);
+      } while(error);
 
       if (zonasVehiculosSum[newRepartidor.vehiculo.tipo][newRepartidor.zona] + 1 > 20) {
         maxRepZonaVehiculoError = true;
