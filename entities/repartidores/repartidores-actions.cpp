@@ -1,6 +1,8 @@
 #include <iostream>
 #include <stdlib.h>
 #include <limits>
+#include <regex>
+#include<algorithm>
 #include "./repartidores-actions.h"
 #include "../../shared/model/repartidor.model.h"
 #include "../../shared/utils/file-utils.h"
@@ -82,20 +84,29 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       cout << "Ingrese el DNI del repartidor"<<endl<<endl;
 
       cin >> intUserInput;
-      newRepartidor.dni = intUserInput; 
       if (cin.fail()) {
         error = true;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         intUserInput = 999;
       }
-      else error = false;
+      else {
+        newRepartidor.dni = intUserInput; 
+        error = false;
+      } 
     } while(error);
 
-    system("cls");
-    cout << "Ingrese la patente del vehiculo"<<endl<<endl;
-    cin >> stringUserInput;
-    newRepartidor.vehiculo.patente = stringUserInput;
+    do { //input patente loop
+      system("cls");
+      if (error) cout << "Patente erronea!"<<endl<<endl;
+      cout << "Ingrese la patente del vehiculo"<<endl<<endl;
+      cin >> stringUserInput;
+      if (regex_match(stringUserInput, regex("^[A-Za-zñÑ]{3}\\s?\\d{3}$|^[A-Za-zñÑ]{2}\\s?\\d{3}\\s?[A-Za-zñÑ]{2}$"))) {
+        error = false;
+        newRepartidor.vehiculo.patente = stringUserInput;
+      }
+      else error = true;
+    } while (error);
 
     system("cls");
     cout << "Ingrese el nombre del repartidor"<<endl<<endl;
