@@ -103,6 +103,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       if (error) cout << "Patente erronea!"<<endl<<endl;
       cout << "Ingrese la patente del vehiculo"<<endl<<endl;
       getline(cin, input);
+      // TODO: sanitize input (to uppercase, remove whitespaces)
       if (regex_match(input, regex("^[A-Za-zñÑ]{3}\\s?\\d{3}$|^[A-Za-zñÑ]{2}\\s?\\d{3}\\s?[A-Za-zñÑ]{2}$"))) {
         error = false;
         newRepartidor.vehiculo.patente = input;
@@ -110,12 +111,15 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       else error = true;
     } while (error);
 
+
+    // TODO: loop so it cant enter empty value
     system("cls");
     cout << "Ingrese el nombre del repartidor"<<endl<<endl;
 
     getline(cin, input);
     newRepartidor.nombre = input;
 
+    // TODO: loop so it cant enter empty value
     system("cls");
     cout << "Ingrese el apellido del repartidor"<<endl<<endl;
 
