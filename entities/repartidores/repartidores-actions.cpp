@@ -13,6 +13,8 @@ using namespace std;
 bool containsOnlyDigits(string string);
 
 void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
+  cin.clear();
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
   int repartidoresRestantes = 1120 - cantidadRepartidoresActuales;
 
   int zonasVehiculosSum[4][14] = {0};
@@ -33,14 +35,10 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         if (maxRepZonaVehiculoError) cout << "El vehiculo y zona seleccionados, cuentan con el maximo de repartidores posibles, por favor elija otra combinacion"<<endl<<endl;
         if (error) cout << "La zona ingresada no existe!"<<endl<<endl;
         cout << "Ingrese la zona del nuevo repartidor (1-14): "<<endl<<endl;
-        cin >> input;
+        getline(cin, input);
         if (!containsOnlyDigits(input) || cin.fail()) {
           error = true;
-          cin.clear();
-          cin.ignore(numeric_limits<streamsize>::max(), '\n');
-          input = "";
         }
-
         else {
           int validInput = stoi(input);
 
@@ -60,12 +58,9 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         cout << "2 - Moto"<<endl;
         cout << "3 - Camion"<<endl;
         cout << "4 - Camioneta"<<endl<<endl;
-        cin >> input;
+        getline(cin, input);
         if (!containsOnlyDigits(input) || cin.fail()) {
           error = true;
-          cin.clear();
-          cin.ignore(numeric_limits<streamsize>::max(), '\n');
-          input = "";
         }
         else {
           int validInput = stoi(input);
@@ -92,12 +87,9 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       if (error) cout << "DNI Erroneo!"<<endl<<endl;
       cout << "Ingrese el DNI del repartidor"<<endl<<endl;
 
-      cin >> input;
+      getline(cin, input);
       if (!containsOnlyDigits(input) || cin.fail()) {
         error = true;
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        input = "";
       }
       else {
         error = false;
@@ -110,7 +102,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       system("cls");
       if (error) cout << "Patente erronea!"<<endl<<endl;
       cout << "Ingrese la patente del vehiculo"<<endl<<endl;
-      cin >> input;
+      getline(cin, input);
       if (regex_match(input, regex("^[A-Za-zñÑ]{3}\\s?\\d{3}$|^[A-Za-zñÑ]{2}\\s?\\d{3}\\s?[A-Za-zñÑ]{2}$"))) {
         error = false;
         newRepartidor.vehiculo.patente = input;
@@ -121,13 +113,13 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
     system("cls");
     cout << "Ingrese el nombre del repartidor"<<endl<<endl;
 
-    cin >> input;
+    getline(cin, input);
     newRepartidor.nombre = input;
 
     system("cls");
     cout << "Ingrese el apellido del repartidor"<<endl<<endl;
 
-    cin >> input;
+    getline(cin, input);
     newRepartidor.apellido = input;
 
     repartidores[cantidadRepartidoresActuales] = newRepartidor;
@@ -142,12 +134,9 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       cout << "Continuar ingresando repartidores?"<<endl;
       cout << "1 - Si"<<endl;
       cout << "0 - Guardar y volver"<<endl<<endl;
-      cin >> input;
+      getline(cin, input);
       if (!containsOnlyDigits(input) || cin.fail()) {
         error = true;
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        input = "";
       }
       else {
         int validInput = stoi(input);
@@ -169,6 +158,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
 }
 
 bool containsOnlyDigits(string string) {
+    if (string.length() == 0) return false;
     for (char c : string) {
         if (!isdigit(c)) {
             return false;
