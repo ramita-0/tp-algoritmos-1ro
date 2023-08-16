@@ -2,12 +2,15 @@
 #include <stdlib.h>
 #include <limits>
 #include <regex>
-#include<algorithm>
+#include <algorithm>
+#include <cctype>
 #include "./repartidores-actions.h"
 #include "../../shared/model/repartidor.model.h"
 #include "../../shared/utils/file-utils.h"
 #include "../../shared/utils/general-utils.h"
 using namespace std;
+
+bool containsOnlyDigits(string string);
 
 void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
   int repartidoresRestantes = 1120 - cantidadRepartidoresActuales;
@@ -15,8 +18,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
   int zonasVehiculosSum[4][14] = {0};
   generarSumatoriaVehiculosZona(zonasVehiculosSum, repartidores, cantidadRepartidoresActuales);
 
-  int intUserInput;
-  string stringUserInput;
+  string input = "";
 
   while (repartidoresRestantes != 0) { // main new repartidor loop
 
@@ -31,19 +33,23 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         if (maxRepZonaVehiculoError) cout << "El vehiculo y zona seleccionados, cuentan con el maximo de repartidores posibles, por favor elija otra combinacion"<<endl<<endl;
         if (error) cout << "La zona ingresada no existe!"<<endl<<endl;
         cout << "Ingrese la zona del nuevo repartidor (1-14): "<<endl<<endl;
-        cin >> intUserInput;
-        if (cin.fail()) {
+        cin >> input;
+        if (!containsOnlyDigits(input) || cin.fail()) {
           error = true;
           cin.clear();
           cin.ignore(numeric_limits<streamsize>::max(), '\n');
-          intUserInput = 999;
+          input = "";
         }
 
-        if (intUserInput >= 1 && intUserInput <= 14) {
-          newRepartidor.zona = intUserInput - 1;
-          error = false;
+        else {
+          int validInput = stoi(input);
+
+          if (validInput >= 1 && validInput <= 14) {
+            newRepartidor.zona = validInput - 1;
+            error = false;
+          }
+          else error = true;
         }
-        else error = true;
       } while (error);
 
       do { // input vehiculo loop
@@ -54,19 +60,22 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         cout << "2 - Moto"<<endl;
         cout << "3 - Camion"<<endl;
         cout << "4 - Camioneta"<<endl<<endl;
-        cin >> intUserInput;
-        if (cin.fail()) {
+        cin >> input;
+        if (!containsOnlyDigits(input) || cin.fail()) {
           error = true;
           cin.clear();
           cin.ignore(numeric_limits<streamsize>::max(), '\n');
-          intUserInput = 999;
+          input = "";
         }
+        else {
+          int validInput = stoi(input);
 
-        if (intUserInput >= 1 && intUserInput <= 4) {
-          error = false;
-          newRepartidor.vehiculo.tipo = Vehiculos(intUserInput - 1);
+          if (validInput >= 1 && validInput <= 4) {
+            error = false;
+            newRepartidor.vehiculo.tipo = Vehiculos(validInput - 1);
+          }
+          else error = true;
         }
-        else error = true;
       } while(error);
 
       if (zonasVehiculosSum[newRepartidor.vehiculo.tipo][newRepartidor.zona] + 1 > 20) {
@@ -83,16 +92,17 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       if (error) cout << "DNI Erroneo!"<<endl<<endl;
       cout << "Ingrese el DNI del repartidor"<<endl<<endl;
 
-      cin >> intUserInput;
-      if (cin.fail()) {
+      cin >> input;
+      if (!containsOnlyDigits(input) || cin.fail()) {
         error = true;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        intUserInput = 999;
+        input = "";
       }
       else {
-        newRepartidor.dni = intUserInput; 
         error = false;
+        int validInput = stoi(input);
+        newRepartidor.dni = validInput; 
       } 
     } while(error);
 
@@ -100,10 +110,10 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       system("cls");
       if (error) cout << "Patente erronea!"<<endl<<endl;
       cout << "Ingrese la patente del vehiculo"<<endl<<endl;
-      cin >> stringUserInput;
-      if (regex_match(stringUserInput, regex("^[A-Za-zñÑ]{3}\\s?\\d{3}$|^[A-Za-zñÑ]{2}\\s?\\d{3}\\s?[A-Za-zñÑ]{2}$"))) {
+      cin >> input;
+      if (regex_match(input, regex("^[A-Za-zñÑ]{3}\\s?\\d{3}$|^[A-Za-zñÑ]{2}\\s?\\d{3}\\s?[A-Za-zñÑ]{2}$"))) {
         error = false;
-        newRepartidor.vehiculo.patente = stringUserInput;
+        newRepartidor.vehiculo.patente = input;
       }
       else error = true;
     } while (error);
@@ -111,14 +121,14 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
     system("cls");
     cout << "Ingrese el nombre del repartidor"<<endl<<endl;
 
-    cin >> stringUserInput;
-    newRepartidor.nombre = stringUserInput;
+    cin >> input;
+    newRepartidor.nombre = input;
 
     system("cls");
     cout << "Ingrese el apellido del repartidor"<<endl<<endl;
 
-    cin >> stringUserInput;
-    newRepartidor.apellido = stringUserInput;
+    cin >> input;
+    newRepartidor.apellido = input;
 
     repartidores[cantidadRepartidoresActuales] = newRepartidor;
     zonasVehiculosSum[newRepartidor.vehiculo.tipo][newRepartidor.zona] ++;
@@ -132,25 +142,37 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
       cout << "Continuar ingresando repartidores?"<<endl;
       cout << "1 - Si"<<endl;
       cout << "0 - Guardar y volver"<<endl<<endl;
-      cin >> intUserInput;
-      if (cin.fail()) {
+      cin >> input;
+      if (!containsOnlyDigits(input) || cin.fail()) {
         error = true;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        intUserInput = 999;
+        input = "";
       }
+      else {
+        int validInput = stoi(input);
 
-      if (intUserInput == 1) {
-        error = false;
-        break;
+        if (validInput == 1) {
+          error = false;
+          break;
+        }
+        if (validInput == 0) {
+          error = false;
+          writeToFiles(repartidores, cantidadRepartidoresActuales);
+          return;
+        }
+        error = true;
       }
-      if (intUserInput == 0) {
-        error = false;
-        writeToFiles(repartidores, cantidadRepartidoresActuales);
-        return;
-      }
-      error = true;
     } while(true);
   }
   return;
+}
+
+bool containsOnlyDigits(string string) {
+    for (char c : string) {
+        if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
 }
