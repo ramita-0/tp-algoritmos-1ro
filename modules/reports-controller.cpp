@@ -1,9 +1,9 @@
 #include <iostream>
 #include <stdlib.h>
 #include <limits>
+#include "reports-controller.h"
+#include "reports-actions.h"
 #include "../shared/model/repartidor.model.h"
-#include "./reports-controller.h"
-#include "./reports-actions.h"
 using namespace std;
 
 void printInformesMenu(bool);

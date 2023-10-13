@@ -1,7 +1,8 @@
 #include <iostream>
 #include <stdio.h>
+#include "file-utils.h"
+#include "general-utils.h"
 #include "../model/repartidor.model.h"
-#include "./general-utils.h"
 using namespace std;
 
 void writeToFiles(Repartidor repartidores[], int size) {
