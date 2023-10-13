@@ -2,6 +2,8 @@
 
 Aclararacion: para que los comandos funcionen tal como se muestran en este documento, se deben encontrar en la carpeta raiz del repositorio
 
+Antes que nada, crear una carpeta vacia llamada `dat` dentro del proyecto. (solucionar esto en un futuro)
+
 #### Compilar y crear ejecutable para windows
 
 - 1 Compilar (desde una terminal)
