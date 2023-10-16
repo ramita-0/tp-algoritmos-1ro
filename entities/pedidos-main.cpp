@@ -30,7 +30,7 @@ pedidosMain()
                 asignarPedido();
                 break;
             case 3:
-                erorr = false;
+                error = false;
                 mostarRepartidores();
                 break;
             case 0:
