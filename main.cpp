@@ -34,6 +34,10 @@ int main() {
         error = false;
         informesMain(repartidores, cantidadRepartidoresActuales);
         break;
+      case 3:
+        error = false;
+        pedidosMain();
+        break;
       case 0:
         return 0;
       default:
@@ -47,5 +51,6 @@ void printMainMenu(bool error) {
   if (error) cout<<"Opcion incorrecta!"<<endl<<endl;
   cout<<"1 - Gestionar Repartidores"<<endl;
   cout<<"2 - Informes"<<endl;
+  cout<<"3 - Gestionar Pedidos"<<endl;
   cout<<"0 - Salir"<<endl<<endl;
 }
