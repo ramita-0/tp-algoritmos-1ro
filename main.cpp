@@ -4,7 +4,9 @@
 #include "./shared/utils/file-utils.h"
 #include "./shared/model/repartidor.model.h"
 #include "./entities/repartidores/repartidores-controller.h"
+#include "./entities/pedidos/pedidos-controller.h"
 #include "./modules/reports-controller.h"
+#include "./shared/data-structures/cola-pedidos.h"
 using namespace std;
 
 void printMainMenu(bool error);
@@ -13,8 +15,16 @@ int main() {
   int userInput = 999;
   bool error = false;
 
+  // Estado de la app
   Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
+
+  ColaPedidos colaPedidos[4] = {};
+
+  for (int i = 0; i < 4; ++i) {
+    colaPedidos[i].primero = NULL;
+    colaPedidos[i].ultimo = NULL;
+  }
 
   do {
     printMainMenu(error);
@@ -32,6 +42,10 @@ int main() {
         break;
       case 2:
         error = false;
+        pedidosMain(colaPedidos);
+        break;
+      case 3:
+        error = false;
         informesMain(repartidores, cantidadRepartidoresActuales);
         break;
       case 0:
@@ -46,6 +60,7 @@ void printMainMenu(bool error) {
   system("cls");
   if (error) cout<<"Opcion incorrecta!"<<endl<<endl;
   cout<<"1 - Gestionar Repartidores"<<endl;
-  cout<<"2 - Informes"<<endl;
+  cout<<"2 - Gestionar Pedidos"<<endl;
+  cout<<"3 - Informes"<<endl;
   cout<<"0 - Salir"<<endl<<endl;
 }
