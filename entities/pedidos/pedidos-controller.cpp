@@ -23,11 +23,11 @@ void pedidosMain(ColaPedidos colaPedidos[]) {
     switch(userInput) {
       case 1:
         error = false;
-        ingresarPedido();
+        ingresarPedido(); //TODO: pasar la cola de pedidos.
         break;
       case 2:
         error = false;
-        asignarPedido();
+        asignarPedido(); //TODO: pasar la cola de pedidos.
         break;
       case 0:
         return;

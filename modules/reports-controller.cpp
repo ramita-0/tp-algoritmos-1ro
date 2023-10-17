@@ -36,7 +36,7 @@ void informesMain(Repartidor repartidores[], int cantidadRepartidoresActuales) {
       break;
     case 4:
       error = false;
-      // informarEntregasRealizadasPorRepartidores() // Ver bien que nombre le ponemos
+      // informarEntregasRealizadasPorRepartidores(repartidores) // Ver bien que nombre le ponemos
       break;
     case 0:
       return;
