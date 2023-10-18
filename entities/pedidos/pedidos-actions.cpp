@@ -51,7 +51,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
     do { // input volumen loop
       system("cls");
       if (error) cout << "Volumen erroneo!"<<endl<<endl;
-      cout << "Ingrese el volumen del pedido"<<endl<<endl;
+      cout << "Ingrese el volumen del pedido en m3"<<endl<<endl;
 
       getline(cin, input);
       float validInput;
@@ -63,10 +63,55 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
         error = true;
       } 
     } while(error);
-
+    
     if(!pedidoEsValido(repartidores, cantidadRepartidoresActuales, newPedido)) errorPaqueteValido = true;
     else errorPaqueteValido = false;
+  
   } while(errorPaqueteValido);
+
+  do { // input importe loop
+    system("cls");
+    if (error) cout << "Importe erroneo!"<<endl<<endl;
+    cout << "Ingrese el importe del pedido"<<endl<<endl;
+
+    getline(cin, input);
+    float validInput;
+    try {
+      validInput= stof(input); // TODO: comprobar que este casteo anda 100% bien, no parece tener problemas de momento.
+      newPedido.importe = validInput; 
+      error = false;
+    } catch(exception& e) {
+      error = true;
+    } 
+  } while(error);
+
+   do { // input codigoComercio loop
+    system("cls");
+    if (error) cout << "El codigo del comercio debe ser numerico!"<<endl<<endl;
+    cout << "Ingrese el codigo del comercio que hizo la venta: "<<endl<<endl;
+    getline(cin, input);
+    if (!containsOnlyDigits(input) || cin.fail()) {
+      error = true;
+    }
+    else {
+      int validInput = stoi(input);
+      newPedido.codigoComercio = validInput;
+      error = false;
+    }
+  } while (error);
+
+  system("cls");
+  cout << "Ingrese el domicilio del destino del pedido"<<endl<<endl;
+
+  getline(cin, input);
+  newPedido.domicilio = input;
+  
+  cout<< endl<<endl<<newPedido.zonaDeEntrega<<endl<<newPedido.volumen<<endl<<newPedido.codigoComercio<<endl<<newPedido.domicilio<<endl<<newPedido.importe;
+  cin >> input;
+  return;
+  // TODO: Guardar pedido en la cola, preguntar al usuario si quere seguir agregando pedidos o salir
+
+
 }
 
 void asignarPedido() {
@@ -80,7 +125,7 @@ void agregarPedidoACola(ListaColaPedidos* listaColaPedidos, Pedido pedido) {
 bool pedidoEsValido(Repartidor repartidores[], int cantidadRepartidoresActuales, Pedido pedido) {
   int vehiculoPedido = determinarVehiculoDelPedido(pedido);
   for(int i = 0; i < cantidadRepartidoresActuales; i++) {
-    if (repartidores[i].zona == pedido.zonaDeEntrega && repartidores[i].vehiculo.tipo == Vehiculos(vehiculoPedido)) {
+    if (repartidores[i].zona == pedido.zonaDeEntrega && repartidores[i].vehiculo.tipo == Vehiculos(vehiculoPedido)) { // TODO: Fix as when there are >1 repartidores in the array it does not validate correctly.
       // Existe un repartidor en la zona del paquete, con el vehiculo necesitado determinado por el volumen del pedido, 
       // que esta disponible para realizar la entrega.
       return true;
