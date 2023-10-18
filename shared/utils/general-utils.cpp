@@ -23,3 +23,13 @@ void ordenamientoDeRepartidores(Repartidor repartidores[], int size) {
   }
   return;
 }
+
+bool containsOnlyDigits(string string) {
+    if (string.length() == 0) return false;
+    for (char c : string) {
+        if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
+}

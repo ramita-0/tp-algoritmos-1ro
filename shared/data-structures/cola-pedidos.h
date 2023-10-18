@@ -3,6 +3,6 @@
 using namespace std;
 
 struct ColaPedidos {
-    NodoPedido* primero;
-    NodoPedido* ultimo;
+  NodoPedido* primero;
+  NodoPedido* ultimo;
 };

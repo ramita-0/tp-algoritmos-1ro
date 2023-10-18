@@ -1,6 +1,7 @@
 #pragma once
-#include "../../shared/data-structures/cola-pedidos.h"
+#include "../../shared/data-structures/lista-cola-pedidos.h"
+#include "../../shared/model/repartidor.model.h"
 
 void printMenuPedidos(bool);
 
-void pedidosMain(ColaPedidos[]);
+void pedidosMain(Repartidor[], int, ListaColaPedidos*&);
