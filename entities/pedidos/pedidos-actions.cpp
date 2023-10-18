@@ -8,7 +8,6 @@
 bool pedidoEsValido(Repartidor[], int, Pedido);
 
 void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
-  system("cls");
   cin.clear();
   cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
@@ -19,11 +18,19 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
 
   do {
     if (errorPaqueteValido) {
-      cout << "No existen repartidores en la zona a repartir, y con el vehiculo precisado por el volumen." << endl;
-      cout << "Por favor, ingrese otros datos" << endl << endl; // TODO: salir de la funcion.
-    }
+      system("cls");
+      cout << "No existen repartidores en la zona a repartir con el vehiculo precisado por el volumen del pedido." << endl;
+      cout << "1 - Reingresar pedido" << endl;
+      cout << "0 - Volver" << endl << endl;
+      cin >> input;
+      if (input == "0") return;
+      cin.clear();
+      cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+    }
+    
     do { // input zona loop
+      system("cls");
       if (error) cout << "La zona ingresada no existe!"<<endl<<endl;
       cout << "Ingrese la zona del nuevo pedido (1-14): "<<endl<<endl;
       getline(cin, input);
