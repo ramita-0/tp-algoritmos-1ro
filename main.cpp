@@ -42,7 +42,7 @@ int main() {
         break;
       case 2:
         error = false;
-        pedidosMain(colaPedidos);
+        pedidosMain(colaPedidos,repartidores,cantidadRepartidoresActuales);
         break;
       case 3:
         error = false;

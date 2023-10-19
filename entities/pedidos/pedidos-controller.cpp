@@ -7,7 +7,7 @@ using namespace std;
 
 void printMenuPedidos(bool error);
 
-void pedidosMain(ColaPedidos colaPedidos[]) {
+void pedidosMain(ColaPedidos colaPedidos[], Repartidor repartidores[], int cantidadRepartidoresActuales) {
   bool error = false;
   int userInput = 999;
 
@@ -27,7 +27,7 @@ void pedidosMain(ColaPedidos colaPedidos[]) {
         break;
       case 2:
         error = false;
-        asignarPedido(); //TODO: pasar la cola de pedidos.
+        asignarPedido(repartidores); //TODO: pasar la cola de pedidos.
         break;
       case 0:
         return;
