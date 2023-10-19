@@ -6,6 +6,8 @@
 #include "../../shared/utils/business-utils.h"
 
 bool pedidoEsValido(Repartidor[], int, Pedido);
+void agregarPedidoACola(ListaColaPedidos*, Pedido);
+void mostrarPedidos(ListaColaPedidos*);
 
 void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
   cin.clear();
@@ -64,7 +66,8 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
       } 
     } while(error);
     
-    if(!pedidoEsValido(repartidores, cantidadRepartidoresActuales, newPedido)) errorPaqueteValido = true;
+    //TODO: PONER EN TRUE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    if(!pedidoEsValido(repartidores, cantidadRepartidoresActuales, newPedido)) errorPaqueteValido = false;
     else errorPaqueteValido = false;
   
   } while(errorPaqueteValido);
@@ -105,21 +108,81 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
 
   getline(cin, input);
   newPedido.domicilio = input;
-  
-  cout<< endl<<endl<<newPedido.zonaDeEntrega<<endl<<newPedido.volumen<<endl<<newPedido.codigoComercio<<endl<<newPedido.domicilio<<endl<<newPedido.importe;
-  cin >> input;
-  return;
+
   // TODO: Guardar pedido en la cola, preguntar al usuario si quere seguir agregando pedidos o salir
-
-
+  agregarPedidoACola(listaColaPedidos, newPedido); //TODO: Fix Segmentation fault
+  mostrarPedidos(listaColaPedidos);
+  cin >> input;
 }
 
 void asignarPedido() {
   //...
 }
+void mostrarPedidos(ListaColaPedidos* listaColaPedidos) {
+  while(listaColaPedidos != NULL) {
+    cout << "Zona: " << listaColaPedidos->zona << " Vehiculo: " << listaColaPedidos->tipoVehiculo << endl;
+    NodoPedido* primerNodo = listaColaPedidos->colaPedidos->primero;
+
+    cout << "Importe p/paquete: [ ";
+    while(primerNodo != NULL) {
+      cout << primerNodo->pedido.importe << ", ";
+      primerNodo = primerNodo->siguiente;
+    }
+    cout << "]";
+    listaColaPedidos = listaColaPedidos->siguienteCola;
+  }
+}
 
 void agregarPedidoACola(ListaColaPedidos* listaColaPedidos, Pedido pedido) {
+  if(listaColaPedidos == NULL) {
+    listaColaPedidos->tipoVehiculo = Vehiculos(determinarVehiculoDelPedido(pedido));
+    listaColaPedidos->zona = pedido.zonaDeEntrega;
+    listaColaPedidos->siguienteCola = NULL;
+    ColaPedidos* nuevaColaPedidos = new ColaPedidos;
+    nuevaColaPedidos->primero->pedido = pedido;
+    listaColaPedidos->colaPedidos = nuevaColaPedidos;
+    return;
+  }
 
+  ListaColaPedidos* actual = listaColaPedidos;
+  ListaColaPedidos* anterior = actual;
+
+  while(actual != NULL) {
+    if (actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == Vehiculos(determinarVehiculoDelPedido(pedido))) {
+      // 1 nodo
+      if (actual->colaPedidos->ultimo == NULL) {
+        actual->colaPedidos->ultimo->pedido = pedido;
+        actual->colaPedidos->primero->siguiente = actual->colaPedidos->ultimo;
+        return;
+      }
+      // mas de 1 nodo
+      else {
+        NodoPedido* nuevoPedido = new NodoPedido;
+        nuevoPedido->pedido = pedido;
+        nuevoPedido->siguiente = NULL;
+        actual->colaPedidos->ultimo->siguiente = nuevoPedido;
+        return;
+      }
+    }
+    else {
+      anterior = actual;
+      actual = actual->siguienteCola;
+    }
+  }
+  //llegue al final, tengo que agregar una nueva cola con su zona y tipo vehiculo
+  if (actual == NULL) {
+    ListaColaPedidos* nuevaListaColaPedidos = new ListaColaPedidos;
+    nuevaListaColaPedidos->tipoVehiculo =  Vehiculos(determinarVehiculoDelPedido(pedido));
+    nuevaListaColaPedidos->zona = pedido.zonaDeEntrega;
+    nuevaListaColaPedidos->siguienteCola = NULL;
+
+    ColaPedidos* nuevaColaPedidos = new ColaPedidos;
+    nuevaColaPedidos->primero->pedido = pedido;
+    nuevaListaColaPedidos->colaPedidos = nuevaColaPedidos;
+    anterior->siguienteCola = nuevaListaColaPedidos;
+
+    return;
+  }
 }
 
 bool pedidoEsValido(Repartidor repartidores[], int cantidadRepartidoresActuales, Pedido pedido) {

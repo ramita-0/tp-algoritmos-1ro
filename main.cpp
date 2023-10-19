@@ -19,7 +19,7 @@ int main() {
   Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
 
-  ListaColaPedidos* listaColaPedidos = new ListaColaPedidos; // TODO: chequear esta inicializacion
+  ListaColaPedidos* listaColaPedidos = NULL; // TODO: chequear esta inicializacion
 
   do {
     printMainMenu(error);
