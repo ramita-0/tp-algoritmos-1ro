@@ -12,8 +12,9 @@ using namespace std;
 void ingresarPedido() {
   //...
 }
-bool buscarRepartidor(int dniRepartidor,Repartidor repartidores[], int cantidadRepartidoresActuales);
+Repartidor* buscarRepartidor(int dniRepartidor,Repartidor repartidores[], int cantidadRepartidoresActuales);
 void buscarPedido(Repartidor punteroRepartidor, ListaColaPedidos* lista, ListaColaPedidos*& pedido);
+void desencolar(listaColaPedidos*& lista->colaPedidos->primero,listaColaPedidos*& lista->colaPedidos->ultimo);
 
 void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales) {
   int DniRepartidor;
@@ -21,8 +22,14 @@ void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales) 
   cin>> DniRepartidor;
   Repartidor* punteroRepartidor = buscarRepartidor(DniRepartidor,repartidores,cantidadRepartidoresActuales);
   if(punteroRepartidor != nullptr){
-    ListaColaPedidos* pedido = NULL
+    ListaColaPedidos* pedido = NULL;
     buscarPedido(punteroRepartidor,lista,pedido);
+    if(pedido != NULL){
+      punteroRepartidor->listaPedidosEntregados->pedido = pedido;
+    }
+    else{
+      cout<<"no hay pedidos para asignar"<<endl;
+    }
   }
 
 }
@@ -45,20 +52,21 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
   }
 }
 
-void buscarPedido(Repartidor* punteroRepartidor, ListaColaPedidos* lista, ListaColaPedidos*& pedido){
+int buscarPedido(Repartidor* punteroRepartidor, ListaColaPedidos* lista, ListaColaPedidos*& pedido){
 
-  while(lista->siguienteCola != NULL && (lista->zona != punteroRepartidor->zona && lista->vehiculo.tipo != punteroRepartidor->vehiculo.tipo)){
-    if(lista->zona == punteroRepartidor->zona && lista->vehiculo.tipo == punteroRepartidor->vehiculo.tipo){
-      punteroRepartidor->listaPedidosEntregados->pedido = lista->colaPedidos->primero;
+  while(lista->siguienteCola != NULL){
+    if(lista->zona == punteroRepartidor->zona && lista->tipoVehiculo == punteroRepartidor->vehiculo.tipo){
+      pedido = lista->colaPedidos->primero->pedido;
       desencolar(lista->colaPedidos->primero,lista->colaPedidos->ultimo);
+      return;
     }
-    lista = lista->siguienteCola;
-  }
-  if()
-
+    else{
+      lista = lista->siguienteCola;
+    }
+}
 }
 
-void desencolar(listaColaPedidos lista->colaPedidos->primero,listaColaPedidos lista->colaPedidos->ultimo){
+void desencolar(listaColaPedidos*& lista->colaPedidos->primero, listaColaPedidos*& lista->colaPedidos->ultimo){
   NodoPedido*p = lista->colaPedidos->primero;
   lista->colapedidos->primero = lista->colapedidos->primero->siguiente;
   delete p;
