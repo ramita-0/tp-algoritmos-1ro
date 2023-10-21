@@ -13,8 +13,8 @@ void ingresarPedido() {
   //...
 }
 Repartidor* buscarRepartidor(int dniRepartidor,Repartidor repartidores[], int cantidadRepartidoresActuales);
-void buscarPedido(Repartidor punteroRepartidor, ListaColaPedidos* lista, ListaColaPedidos*& pedido);
-void desencolar(listaColaPedidos*& lista->colaPedidos->primero,listaColaPedidos*& lista->colaPedidos->ultimo);
+void buscarPedido(Repartidor* punteroRepartidor, ListaColaPedidos* lista, ListaColaPedidos*& punteroPedido);
+void desencolar(ListaColaPedidos*& lista->colaPedidos->primero,ListaColaPedidos*& lista->colaPedidos->ultimo);
 
 void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales) {
   int DniRepartidor;
@@ -22,20 +22,23 @@ void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales) 
   cin>> DniRepartidor;
   Repartidor* punteroRepartidor = buscarRepartidor(DniRepartidor,repartidores,cantidadRepartidoresActuales);
   if(punteroRepartidor != nullptr){
-    ListaColaPedidos* pedido = NULL;
-    buscarPedido(punteroRepartidor,lista,pedido);
-    if(pedido != NULL){
-      punteroRepartidor->listaPedidosEntregados->pedido = pedido;
+    ListaColaPedidos* punteroPedido = NULL;
+    buscarPedido(punteroRepartidor,lista,punteroPedido);
+    if(punteroPedido != NULL){ //encontro un pedido con esas caracteristicas
+      punteroRepartidor->listaPedidosEntregados->pedido = punteroPedido->colaPedidos->primero->pedido;
     }
-    else{
-      cout<<"no hay pedidos para asignar"<<endl;
-    }
+  
+  else{
+    cout<<"no hay pedidos para asignar"<<endl;
   }
-
+  }
+  else{
+    cout<<"no existe el repartidor que buscas"<<endl;
+  }
 }
+
 //TODO: fijarse el tema del puntero en repartidor, tambien se puede pasar por referencia un puntero ya creado
-Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int cantidadRepartidoresActuales)
-{
+Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int cantidadRepartidoresActuales){
   int i = 0;
   while(i < cantidadRepartidoresActuales && dniRepartidor != repartidores[i].dni)
   {
@@ -43,20 +46,19 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
   }
   if(i == cantidadRepartidoresActuales)
   {
-    return nullptr;
+    return nullptr; //no lo encontro
   }
   else
   {
     Repartidor* punteroRepartidor = &repartidores[i];
-    return punteroRepartidor;
+    return punteroRepartidor; //encontro el repartidor
   }
 }
 
-int buscarPedido(Repartidor* punteroRepartidor, ListaColaPedidos* lista, ListaColaPedidos*& pedido){
-
+void buscarPedido(Repartidor* punteroRepartidor, ListaColaPedidos* lista, ListaColaPedidos*& punteroPedido){
   while(lista->siguienteCola != NULL){
     if(lista->zona == punteroRepartidor->zona && lista->tipoVehiculo == punteroRepartidor->vehiculo.tipo){
-      pedido = lista->colaPedidos->primero->pedido;
+      punteroPedido->colaPedidos->primero->pedido = lista->colaPedidos->primero->pedido;
       desencolar(lista->colaPedidos->primero,lista->colaPedidos->ultimo);
       return;
     }
@@ -66,8 +68,8 @@ int buscarPedido(Repartidor* punteroRepartidor, ListaColaPedidos* lista, ListaCo
 }
 }
 
-void desencolar(listaColaPedidos*& lista->colaPedidos->primero, listaColaPedidos*& lista->colaPedidos->ultimo){
+void desencolar(ListaColaPedidos*& lista->colaPedidos->primero, ListaColaPedidos*& lista->colaPedidos->ultimo){
   NodoPedido*p = lista->colaPedidos->primero;
-  lista->colapedidos->primero = lista->colapedidos->primero->siguiente;
+  lista->colaPedidos->primero = lista->colaPedidos->primero->siguiente;
   delete p;
 }
