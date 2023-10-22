@@ -27,7 +27,7 @@ void pedidosMain(Repartidor repartidores[], int cantidadRepartidoresActuales, Li
         break;
       case 2:
         error = false;
-        asignarPedido(); //TODO: pasar la cola de pedidos.
+        asignarPedido(repartidores, cantidadRepartidoresActuales, listaColaPedidos);
         break;
       case 0:
         return;

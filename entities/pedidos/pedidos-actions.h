@@ -4,4 +4,4 @@
 
 void ingresarPedido(Repartidor[], int, ListaColaPedidos*&);
 
-void asignarPedido();
+void asignarPedido(Repartidor[], int, ListaColaPedidos*&);

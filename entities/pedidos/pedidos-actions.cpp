@@ -1,13 +1,20 @@
 #include <iostream>
 #include <limits>
 #include "./pedidos-actions.h"
-#include "../../shared/data-structures/nodo-pedido.model.h"
+#include "../../shared/data-structures/lista-cola-pedidos.h"
+#include "../../shared/model/repartidor.model.h"
+#include "../../shared/utils/file-utils.h"
 #include "../../shared/utils/general-utils.h"
 #include "../../shared/utils/business-utils.h"
+using namespace std;
 
 bool pedidoEsValido(Repartidor[], int, Pedido);
 void agregarPedidoACola(ListaColaPedidos*&, Pedido);
 void mostrarPedidos(ListaColaPedidos*);
+Repartidor* buscarRepartidor(int dniRepartidor,Repartidor repartidores[], int cantidadRepartidoresActuales);
+void buscarPedido(Repartidor* repartidor, ListaColaPedidos* lista, ListaColaPedidos*& punteroPedido);
+void desencolarPedido(ColaPedidos*& colaPedidos);
+void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos);
 
 void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
   cin.clear();
@@ -112,8 +119,66 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
   agregarPedidoACola(listaColaPedidos, newPedido);
 }
 
-void asignarPedido() {
-  //...
+
+// Se lo agrega al repartidor
+void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
+  int dniRepartidor;
+  cout<<"DNI del repartidor a asignar: ";
+  cin>> dniRepartidor;
+  Repartidor* punteroRepartidor = buscarRepartidor(dniRepartidor, repartidores, cantidadRepartidoresActuales);
+
+  if(punteroRepartidor != nullptr) {
+    NodoPedido* nodoPedido = buscarPedido(punteroRepartidor, listaColaPedidos);
+    if(nodoPedido != nullptr ) { //encontro un pedido con esas caracteristicas
+      // 0 entregados:
+      if (punteroRepartidor->listaPedidosEntregados == nullptr) {
+        punteroRepartidor->listaPedidosEntregados = new NodoPedido;
+        punteroRepartidor->listaPedidosEntregados->pedido = nodoPedido->pedido;
+        punteroRepartidor->listaPedidosEntregados->siguiente = NULL;
+        desencolarPedido();
+        // TODO: Mensaje de exito;
+        return;
+      }
+
+      NodoPedido* pedidosEntregadosRepartidor = punteroRepartidor->listaPedidosEntregados;
+      NodoPedido* anterior = pedidosEntregadosRepartidor;
+      
+      // TODO: loop hasta el final de la lista, asignar espacio y agregar pedido.
+      while (pedidosEntregadosRepartidor != NULL) {
+        anterior = pedidosEntregadosRepartidor;
+        pedidosEntregadosRepartidor = pedidosEntregadosRepartidor->siguiente;
+      }
+
+      anterior->siguiente = nodoPedido;
+      anterior->siguiente->siguiente = NULL;
+      desencolarPedido();
+      // TODO: Mensaje de exito;
+      return;
+    }
+    cout<<"No hay pedidos para asignar"<<endl;
+    return;
+  }
+  cout<<"No existe el repartidor que buscas"<<endl;
+}
+
+//TODO: fijarse el tema del puntero en repartidor, tambien se puede pasar por referencia un puntero ya creado
+Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int cantidadRepartidoresActuales){
+  int i = 0;
+  while(i < cantidadRepartidoresActuales && dniRepartidor != repartidores[i].dni)
+  {
+    i++;
+  }
+  //no lo encontro
+  if(i == cantidadRepartidoresActuales)
+  {
+    return nullptr; 
+  }
+  //encontro el repartidor
+  else
+  {
+    Repartidor* punteroRepartidor = &repartidores[i];
+    return punteroRepartidor; 
+  }
 }
 
 void mostrarPedidos(ListaColaPedidos* listaColaPedidos) {
@@ -197,14 +262,45 @@ void agregarPedidoACola(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   }
 }
 
+// TODO: Fix as when there are >1 repartidores in the array it does not validate correctly.
 bool pedidoEsValido(Repartidor repartidores[], int cantidadRepartidoresActuales, Pedido pedido) {
   int vehiculoPedido = determinarVehiculoDelPedido(pedido);
   for(int i = 0; i < cantidadRepartidoresActuales; i++) {
-    if (repartidores[i].zona == pedido.zonaDeEntrega && repartidores[i].vehiculo.tipo == Vehiculos(vehiculoPedido)) { // TODO: Fix as when there are >1 repartidores in the array it does not validate correctly.
+    if (repartidores[i].zona == pedido.zonaDeEntrega && repartidores[i].vehiculo.tipo == Vehiculos(vehiculoPedido)) { 
       // Existe un repartidor en la zona del paquete, con el vehiculo necesitado determinado por el volumen del pedido, 
       // que esta disponible para realizar la entrega.
       return true;
     }
     return false;
+  }
+}
+
+NodoPedido* buscarPedido(Repartidor* repartidor, ListaColaPedidos* listaColaPedidos) {
+  while(listaColaPedidos->siguienteCola != NULL) {
+    if(listaColaPedidos->zona == repartidor->zona && listaColaPedidos->tipoVehiculo == repartidor->vehiculo.tipo){
+      return listaColaPedidos->colaPedidos->primero;
+    }
+    else{
+      listaColaPedidos = listaColaPedidos->siguienteCola;
+    }
+  }
+  return nullptr;
+}
+
+
+void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
+  ListaColaPedidos* anterior = listaColaPedidos;
+  while(listaColaPedidos->siguienteCola != NULL) {
+    // encontre la cola,
+    if(listaColaPedidos->zona == pedido.zonaDeEntrega && listaColaPedidos->tipoVehiculo == determinarVehiculoDelPedido(pedido)){
+      // Hay 1 solo pedido
+      if (listaColaPedidos->colaPedidos->primero->siguiente == NULL) {
+        
+      }
+    }
+    else{
+      anterior = listaColaPedidos;
+      listaColaPedidos = listaColaPedidos->siguienteCola;
+    }
   }
 }
