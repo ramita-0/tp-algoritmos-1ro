@@ -7,7 +7,7 @@ using namespace std;
 
 void printMenuPedidos(bool error);
 
-void pedidosMain(ColaPedidos colaPedidos[]) {
+void pedidosMain(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
   bool error = false;
   int userInput = 999;
 
@@ -23,7 +23,7 @@ void pedidosMain(ColaPedidos colaPedidos[]) {
     switch(userInput) {
       case 1:
         error = false;
-        ingresarPedido(); //TODO: pasar la cola de pedidos.
+        ingresarPedido(repartidores, cantidadRepartidoresActuales, listaColaPedidos);
         break;
       case 2:
         error = false;

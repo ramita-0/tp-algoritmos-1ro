@@ -162,14 +162,3 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
   }
   return;
 }
-
-// TODO: extract to utils
-bool containsOnlyDigits(string string) {
-    if (string.length() == 0) return false;
-    for (char c : string) {
-        if (!isdigit(c)) {
-            return false;
-        }
-    }
-    return true;
-}

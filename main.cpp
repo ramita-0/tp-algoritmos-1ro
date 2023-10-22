@@ -6,7 +6,7 @@
 #include "./entities/repartidores/repartidores-controller.h"
 #include "./entities/pedidos/pedidos-controller.h"
 #include "./modules/reports-controller.h"
-#include "./shared/data-structures/cola-pedidos.h"
+#include "./shared/data-structures/lista-cola-pedidos.h"
 using namespace std;
 
 void printMainMenu(bool error);
@@ -19,12 +19,7 @@ int main() {
   Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
 
-  ColaPedidos colaPedidos[4] = {};
-
-  for (int i = 0; i < 4; ++i) {
-    colaPedidos[i].primero = NULL;
-    colaPedidos[i].ultimo = NULL;
-  }
+  ListaColaPedidos* listaColaPedidos = NULL; // TODO: chequear esta inicializacion
 
   do {
     printMainMenu(error);
@@ -42,7 +37,7 @@ int main() {
         break;
       case 2:
         error = false;
-        pedidosMain(colaPedidos);
+        pedidosMain(repartidores, cantidadRepartidoresActuales, listaColaPedidos);
         break;
       case 3:
         error = false;
