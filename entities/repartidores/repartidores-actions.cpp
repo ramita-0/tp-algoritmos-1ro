@@ -11,8 +11,6 @@
 #include "../../shared/utils/business-utils.h"
 using namespace std;
 
-bool containsOnlyDigits(string string);
-
 void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
   cin.clear();
   cin.ignore(numeric_limits<streamsize>::max(), '\n');
