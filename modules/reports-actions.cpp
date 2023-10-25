@@ -157,18 +157,17 @@ void informarCantidadTransportesPorZona(Repartidor repartidores[], int cantidadR
 
 void informarEntregasRealizadasPorRepartidores(Repartidor repartidores[], int cantidadRepartidoresActuales){
   system("cls");
-   for (int i = 0; i < cantidadRepartidoresActuales ; i++) {
-        Repartidor repartidor = repartidores[i];
-        if (repartidor.listaPedidosEntregados != nullptr) { //TODO: chequear si la comparación hya que hacerla con null o nullptr
-           cout<<repartidor.nombre<<", "<<repartidor.apellido<<", "<<repartidor.dni<<endl;
-           cout<<"Paquetes entregados:"<<endl;
-           NodoPedido* nodoPedido = repartidor.listaPedidosEntregados;
-           while (nodoPedido != nullptr) {
-            Pedido pedido = nodoPedido->pedido;
-            cout << "Codigo del pedido: " << pedido.codigo << endl;
-            nodoPedido = nodoPedido->siguiente;
-           }
-            cout<<endl;
-       }
+  for (int i = 0; i < cantidadRepartidoresActuales ; i++) {
+    Repartidor repartidorActual = repartidores[i];
+    if (repartidorActual.listaPedidosEntregados != nullptr) { //TODO: chequear si la comparación hya que hacerla con null o nullptr
+      cout<<repartidorActual.nombre<<" "<<repartidorActual.apellido<<" "<<repartidorActual.dni << endl;
+      cout<<"Codigo de comercio de paquetes entregados: ";
+      NodoPedido* listaPedidos = repartidorActual.listaPedidosEntregados;
+      while (listaPedidos != NULL) {
+        cout << listaPedidos->pedido.codigoComercio << " ";
+        listaPedidos = listaPedidos->siguiente;
+      }
+      cout<<endl<<endl;
     }
+  }
 }
