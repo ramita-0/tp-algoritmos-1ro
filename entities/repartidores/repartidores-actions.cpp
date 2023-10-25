@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <stdio.h>
 #include <limits>
 #include <regex>
 #include <algorithm>
@@ -160,3 +161,4 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
   }
   return;
 }
+
