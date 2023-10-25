@@ -18,7 +18,7 @@ int main() {
   // Estado de la app
   Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
-
+  lecturaArchivoRepartidores(repartidores,cantidadRepartidoresActuales);
   ListaColaPedidos* listaColaPedidos = NULL; // TODO: chequear esta inicializacion
 
   do {

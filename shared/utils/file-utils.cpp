@@ -25,3 +25,46 @@ void writeToFiles(Repartidor repartidores[], int size) {
   fclose(camionFile);
   fclose(camionetaFile);
 }
+
+void lecturaArchivoRepartidores(Repartidor repartidores[],int &cantidadRepartidoresActuales){
+  FILE *autoFile = fopen("./data/RepAuto.dat", "rb"); 
+  FILE *motoFile = fopen("./data/RepMoto.dat", "rb"); 
+  FILE *camionFile = fopen("./data/RepCamion.dat", "rb"); 
+  FILE *camionetaFile = fopen("./data/RepCamioneta.dat", "rb");
+  int i = 0;
+  Repartidor r;
+  
+  fread(&r,sizeof(Repartidor),1,autoFile);
+  while(!feof(autoFile))
+  {
+    repartidores[i] = r;
+    i ++;
+    fread(&r,sizeof(Repartidor),1,autoFile);
+  }
+  
+  fread(&r,sizeof(Repartidor),1,motoFile);
+  while(!feof(motoFile))
+  {
+    repartidores[i] = r;
+    i ++;
+    fread(&r,sizeof(Repartidor),1,motoFile);
+  }
+
+  fread(&r,sizeof(Repartidor),1,camionFile);
+  while(!feof(camionFile))
+  {
+    repartidores[i] = r;
+    i ++;
+    fread(&r,sizeof(Repartidor),1,camionFile);
+  }
+
+  fread(&r,sizeof(Repartidor),1,camionetaFile);
+  while(!feof(camionetaFile))
+  {
+    repartidores[i] = r;
+    i ++;
+    fread(&r,sizeof(Repartidor),1,camionetaFile);
+  }
+  cantidadRepartidoresActuales = i;
+  ordenamientoDeRepartidores(repartidores,cantidadRepartidoresActuales);
+}
