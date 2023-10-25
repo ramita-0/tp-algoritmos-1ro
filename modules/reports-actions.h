@@ -6,3 +6,5 @@ void informarCantidadTransportesPorZona(Repartidor repartidores[], int cantidadR
 void informarTransportesNoDisponibles(Repartidor[], int);
 
 void informarZonasConMayorCantidadDeRepartidores (Repartidor[], int);
+
+void informarEntregasRealizadasPorRepartidores (Repartidor[], int);

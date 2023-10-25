@@ -155,3 +155,20 @@ void informarCantidadTransportesPorZona(Repartidor repartidores[], int cantidadR
   return;
 }
 
+void informarEntregasRealizadasPorRepartidores(Repartidor repartidores[], int cantidadRepartidoresActuales){
+  system("cls");
+   for (int i = 0; i < cantidadRepartidoresActuales ; i++) {
+        Repartidor repartidor = repartidores[i];
+        if (repartidor.listaPedidosEntregados != nullptr) { //TODO: chequear si la comparación hya que hacerla con null o nullptr
+           cout<<repartidor.nombre<<", "<<repartidor.apellido<<", "<<repartidor.dni<<endl;
+           cout<<"Paquetes entregados:"<<endl;
+           NodoPedido* nodoPedido = repartidor.listaPedidosEntregados;
+           while (nodoPedido != nullptr) {
+            Pedido pedido = nodoPedido->pedido;
+            cout << "Codigo del pedido: " << pedido.codigo << endl;
+            nodoPedido = nodoPedido->siguiente;
+           }
+            cout<<endl;
+       }
+    }
+}
