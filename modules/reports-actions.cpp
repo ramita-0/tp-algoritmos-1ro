@@ -156,7 +156,7 @@ void informarCantidadTransportesPorZona(Repartidor repartidores[], int cantidadR
 }
 
 void informarEntregasRealizadasPorRepartidores(Repartidor repartidores[], int cantidadRepartidoresActuales){
-  system("cls");
+  //system("cls");
   for (int i = 0; i < cantidadRepartidoresActuales ; i++) {
     Repartidor repartidorActual = repartidores[i];
     if (repartidorActual.listaPedidosEntregados != nullptr) { //TODO: chequear si la comparación hya que hacerla con null o nullptr
@@ -170,4 +170,7 @@ void informarEntregasRealizadasPorRepartidores(Repartidor repartidores[], int ca
       cout<<endl<<endl;
     }
   }
+  cout << "0 - volver" <<endl<<endl;
+  string input;
+  cin >> input; 
 }
