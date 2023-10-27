@@ -7,6 +7,7 @@
 #include "./entities/pedidos/pedidos-controller.h"
 #include "./modules/reports-controller.h"
 #include "./shared/data-structures/lista-cola-pedidos.h"
+#include "./shared/data-structures/nodo-arbol.h"
 using namespace std;
 
 void printMainMenu(bool error);
@@ -18,6 +19,7 @@ int main() {
   // Estado de la app
   Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
+  nodoArbol* raiz = NULL;
   lecturaArchivoRepartidores(repartidores,cantidadRepartidoresActuales);
   ListaColaPedidos* listaColaPedidos = NULL; // TODO: chequear esta inicializacion
 
@@ -37,13 +39,14 @@ int main() {
         break;
       case 2:
         error = false;
-        pedidosMain(repartidores, cantidadRepartidoresActuales, listaColaPedidos);
+        pedidosMain(repartidores, cantidadRepartidoresActuales, listaColaPedidos,raiz);
         break;
       case 3:
         error = false;
         informesMain(repartidores, cantidadRepartidoresActuales);
         break;
       case 0:
+        mostrarArbolInorder(raiz);
         return 0;
       default:
         error = true;

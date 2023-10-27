@@ -15,7 +15,9 @@ void mostrarPedidos(ListaColaPedidos*);
 Repartidor* buscarRepartidor(int dniRepartidor,Repartidor repartidores[], int cantidadRepartidoresActuales);
 NodoPedido* buscarPedido(Repartidor* repartidor, ListaColaPedidos* listaColaPedidos);
 void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido);
-void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos);
+void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos, nodoArbol*& raiz);
+void agregarAlArbol(nodoArbol*& raiz, Pedido pedido);
+void mostrarArbolInorder(nodoArbol* raiz);
 
 void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
   cin.clear();
@@ -123,9 +125,8 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
 
 
 // Se lo agrega al repartidor
-void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
+void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos, nodoArbol*& raiz) {
   int dniRepartidor;
-  nodoArbol* raiz = NULL;
   cout<<"DNI del repartidor a asignar: ";
   cin>> dniRepartidor;
   Repartidor* punteroRepartidor = buscarRepartidor(dniRepartidor, repartidores, cantidadRepartidoresActuales);
@@ -404,4 +405,14 @@ void insertarEnArbol(nodoArbol*& raiz, Pedido pedido){
         else
             anterior->derecha = n;
     }
+}
+
+
+void mostrarArbolInorder(nodoArbol* raiz){
+  if(raiz!=NULL){
+    mostrarArbolInorder(raiz->izquierda);
+    cout<<"codigo de comercio: "<<raiz->codigoComercio<<" ventas realizadas: "<<raiz->ventas;
+    mostrarArbolInorder(raiz->derecha);
+   }
+
 }
