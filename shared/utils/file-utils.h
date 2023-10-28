@@ -3,4 +3,4 @@
 
 void writeToFiles(Repartidor[], int);
 
-void lecturaArchivoRepartidores(Repartidor[],int &);
+void populateRepartidoresArrayAtStart(Repartidor[],int &);

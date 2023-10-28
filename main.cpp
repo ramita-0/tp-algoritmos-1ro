@@ -18,9 +18,13 @@ int main() {
   // Estado de la app
   Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
-  lecturaArchivoRepartidores(repartidores,cantidadRepartidoresActuales);
-  ListaColaPedidos* listaColaPedidos = NULL; // TODO: chequear esta inicializacion
+  ListaColaPedidos* listaColaPedidos = NULL;
 
+  populateRepartidoresArrayAtStart(repartidores,cantidadRepartidoresActuales);
+  for(int i = 0; i < cantidadRepartidoresActuales; i ++) {
+    repartidores[i].listaPedidosEntregados = NULL;
+  }
+  
   do {
     printMainMenu(error);
     cin >> userInput;
@@ -41,7 +45,7 @@ int main() {
         break;
       case 3:
         error = false;
-        informesMain(repartidores, cantidadRepartidoresActuales);
+        informesMain(repartidores, cantidadRepartidoresActuales, listaColaPedidos);
         break;
       case 0:
         return 0;
@@ -52,6 +56,7 @@ int main() {
 }
 
 void printMainMenu(bool error) {
+  system("cls");
   system("cls");
   if (error) cout<<"Opcion incorrecta!"<<endl<<endl;
   cout<<"1 - Gestionar Repartidores"<<endl;
