@@ -2,15 +2,18 @@
 #include "reports-actions.h"
 #include "../shared/model/repartidor.model.h"
 #include "../shared/utils/general-utils.h"
+#include "../shared/utils/business-utils.h"
 using namespace std;
 
 void repartidoresPorZona(int matriz[4][14], int size, int vectorSuma[]);
 int maximoZona(int vectorSuma[]);
 void informeDeZonas(int vectorSuma[], int maximo);
+void mostrarPedidos(ListaColaPedidos*);
 
 void mostrarTransportesNoDisponibles(int arr[]);
 void sumatoriaVehiculosTotaleseEntreZonas (int arr[], int matriz[4][14]);
 string retornarTipoVehiculo(int numero);
+
 
 void informarZonasConMayorCantidadDeRepartidores (Repartidor repartidores[], int cantidadRepartidoresActuales)
 {
@@ -156,21 +159,47 @@ void informarCantidadTransportesPorZona(Repartidor repartidores[], int cantidadR
 }
 
 void informarEntregasRealizadasPorRepartidores(Repartidor repartidores[], int cantidadRepartidoresActuales){
-  //system("cls");
+  system("cls");
+  int j = 0;
   for (int i = 0; i < cantidadRepartidoresActuales ; i++) {
     Repartidor repartidorActual = repartidores[i];
-    if (repartidorActual.listaPedidosEntregados != nullptr) { //TODO: chequear si la comparación hya que hacerla con null o nullptr
+    if (repartidorActual.listaPedidosEntregados != NULL) { 
+      j++;
       cout<<repartidorActual.nombre<<" "<<repartidorActual.apellido<<" "<<repartidorActual.dni << endl;
-      cout<<"Codigo de comercio de paquetes entregados: ";
+      cout<<"Codigo de comercio de paquetes entregados: [ ";
       NodoPedido* listaPedidos = repartidorActual.listaPedidosEntregados;
       while (listaPedidos != NULL) {
         cout << listaPedidos->pedido.codigoComercio << " ";
         listaPedidos = listaPedidos->siguiente;
       }
-      cout<<endl<<endl;
+      cout<<"]"<<endl<<endl;
     }
   }
-  cout << "0 - volver" <<endl<<endl;
-  string input;
-  cin >> input; 
+  if (j == 0) cout << "Ningun repartidor existente ha entregado ningun paquete" << endl << endl;
+  cout << "Ingrese cualquier numero para volver"<<endl<<endl;
+  string out;
+  cin >> out; 
+}
+
+void mostrarPedidos(ListaColaPedidos* listaColaPedidos) {
+  system("cls");
+  if (listaColaPedidos == NULL) {
+    cout << "No hay pedidos" << endl << endl;
+  }
+  while(listaColaPedidos != NULL) {
+    NodoPedido* primerNodo = listaColaPedidos->colaPedidos->primero;
+    cout << "Zona: " << listaColaPedidos->zona + 1 << " Vehiculo: " << returnNombreVehiculo(listaColaPedidos->tipoVehiculo) << endl;
+    cout << "Importe p/paquete: [ ";
+
+    while(primerNodo != NULL) {
+      cout << primerNodo->pedido.importe << ", ";
+      primerNodo = primerNodo->siguiente;
+    }
+
+    cout << "]" << endl << endl;
+    listaColaPedidos = listaColaPedidos->siguienteCola;
+  }
+  cout << "Ingrese cualquier numero para volver"<<endl<<endl;
+  string out;
+  cin >> out;
 }

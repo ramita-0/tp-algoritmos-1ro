@@ -18,9 +18,13 @@ int main() {
   // Estado de la app
   Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
-  lecturaArchivoRepartidores(repartidores,cantidadRepartidoresActuales);
   ListaColaPedidos* listaColaPedidos = NULL; // TODO: chequear esta inicializacion
 
+  lecturaArchivoRepartidores(repartidores,cantidadRepartidoresActuales);
+  for(int i = 0; i < cantidadRepartidoresActuales; i ++) {
+    repartidores[i].listaPedidosEntregados = NULL;
+  }
+  
   do {
     printMainMenu(error);
     cin >> userInput;
@@ -41,7 +45,7 @@ int main() {
         break;
       case 3:
         error = false;
-        informesMain(repartidores, cantidadRepartidoresActuales);
+        informesMain(repartidores, cantidadRepartidoresActuales, listaColaPedidos);
         break;
       case 0:
         return 0;

@@ -25,7 +25,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
   while (repartidoresRestantes != 0) { // main new repartidor loop
 
     Repartidor newRepartidor;
-    newRepartidor.listaPedidosEntregados = nullptr; // TODO: Justificar
+    newRepartidor.listaPedidosEntregados = NULL; // TODO: Justificar
     bool error = false;
     bool maxRepZonaVehiculoError = false;
     

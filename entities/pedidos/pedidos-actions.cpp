@@ -10,7 +10,6 @@ using namespace std;
 
 bool pedidoEsValido(Repartidor[], int, Pedido);
 void agregarPedidoACola(ListaColaPedidos*&, Pedido);
-void mostrarPedidos(ListaColaPedidos*);
 Repartidor* buscarRepartidor(int dniRepartidor,Repartidor repartidores[], int cantidadRepartidoresActuales);
 NodoPedido* buscarPedido(Repartidor* repartidor, ListaColaPedidos* listaColaPedidos);
 void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido);
@@ -27,7 +26,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
 
   do { // Loop hasta ingresar un paquete valido wertgerfdcv 
     if (errorPaqueteValido) {
-      //system("cls");
+      system("cls");
       cout << "No existen repartidores en la zona a repartir con el vehiculo precisado por el volumen del pedido." << endl;
       cout << "1 - Reingresar pedido" << endl;
       cout << "0 - Volver" << endl << endl;
@@ -39,7 +38,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
     }
     
     do { // Input zona loop
-      //system("cls");
+      system("cls");
       if (error) cout << "La zona ingresada no existe!"<<endl<<endl;
       cout << "Ingrese la zona del nuevo pedido (1-14): "<<endl<<endl;
       getline(cin, input);
@@ -58,7 +57,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
     } while (error);
 
     do { // Input volumen loop
-      //system("cls");
+      system("cls");
       if (error) cout << "Volumen erroneo!"<<endl<<endl;
       cout << "Ingrese el volumen del pedido en m3"<<endl<<endl;
 
@@ -79,7 +78,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
   } while(errorPaqueteValido);
 
   do { // Input importe loop
-    //system("cls");
+    system("cls");
     if (error) cout << "Importe erroneo!"<<endl<<endl;
     cout << "Ingrese el importe del pedido"<<endl<<endl;
 
@@ -95,7 +94,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
   } while(error);
 
    do { // input codigoComercio loop
-    //system("cls");
+    system("cls");
     if (error) cout << "El codigo del comercio debe ser numerico!"<<endl<<endl;
     cout << "Ingrese el codigo del comercio que hizo la venta: "<<endl<<endl;
     getline(cin, input);
@@ -109,7 +108,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
     }
   } while (error);
 
-  //system("cls");
+  system("cls");
   cout << "Ingrese el domicilio del destino del pedido"<<endl<<endl;
 
   getline(cin, input);
@@ -117,88 +116,65 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
 
   // TODO: Guardar pedido en la cola, preguntar al usuario si quere seguir agregando pedidos o salir
   agregarPedidoACola(listaColaPedidos, newPedido);
-  mostrarPedidos(listaColaPedidos);
 }
 
 
 // Se lo agrega al repartidor
 void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
+  //TODO: Validacion del input
   int dniRepartidor;
   cout<<"DNI del repartidor a asignar: ";
   cin>> dniRepartidor;
+
   Repartidor* punteroRepartidor = buscarRepartidor(dniRepartidor, repartidores, cantidadRepartidoresActuales);
 
-  if(punteroRepartidor != nullptr) {
-    NodoPedido* nodoPedidoEncontrado = buscarPedido(punteroRepartidor, listaColaPedidos);
-    if(nodoPedidoEncontrado != nullptr ) { //encontro un pedido con esas caracteristicas
-      // 0 entregados:
-      if (punteroRepartidor->listaPedidosEntregados == nullptr) {
-        punteroRepartidor->listaPedidosEntregados = new NodoPedido;
-        punteroRepartidor->listaPedidosEntregados->pedido = nodoPedidoEncontrado->pedido;
-        punteroRepartidor->listaPedidosEntregados->siguiente = NULL;
-        desencolarPedido(listaColaPedidos, nodoPedidoEncontrado->pedido);
-        mostrarPedidos(listaColaPedidos);
-        // TODO: Mensaje de exito;
-        return;
-      }
+  if(punteroRepartidor == nullptr) {
+    cout<<"No existe un repartidor con DNI: " << dniRepartidor << endl;
+    return;
+  }
 
-      NodoPedido* pedidosEntregadosRepartidor = punteroRepartidor->listaPedidosEntregados;
-      NodoPedido* anterior = pedidosEntregadosRepartidor;
-      
-      // TODO: loop hasta el final de la lista, asignar espacio y agregar pedido.
-      while (pedidosEntregadosRepartidor != NULL) {
-        anterior = pedidosEntregadosRepartidor;
-        pedidosEntregadosRepartidor = pedidosEntregadosRepartidor->siguiente;
-      }
-      // anterior->siguiente = new NodoPedido;
-      anterior->siguiente = nodoPedidoEncontrado;
-      anterior->siguiente->siguiente = NULL;
-      desencolarPedido(listaColaPedidos, nodoPedidoEncontrado->pedido);
-      mostrarPedidos(listaColaPedidos);
-      // TODO: Mensaje de exito;
-      return;
-    }
+  NodoPedido* nodoPedidoEncontrado = buscarPedido(punteroRepartidor, listaColaPedidos);
+
+  if(nodoPedidoEncontrado == nullptr ) {
     cout<<"No hay pedidos para asignar"<<endl;
     return;
   }
-  cout<<"No existe el repartidor que buscas"<<endl;
+
+  // 0 entregados:
+  if (punteroRepartidor->listaPedidosEntregados == NULL) {
+    punteroRepartidor->listaPedidosEntregados = new NodoPedido;
+    punteroRepartidor->listaPedidosEntregados->pedido = nodoPedidoEncontrado->pedido;
+    punteroRepartidor->listaPedidosEntregados->siguiente = NULL;
+    desencolarPedido(listaColaPedidos, nodoPedidoEncontrado->pedido);
+    // TODO: Mensaje de exito;
+    return;
+  }
+
+  NodoPedido* pedidosEntregadosRepartidor = punteroRepartidor->listaPedidosEntregados;
+  NodoPedido* anterior = pedidosEntregadosRepartidor;
+  
+  // TODO: loop hasta el final de la lista, asignar espacio y agregar pedido.
+  while (pedidosEntregadosRepartidor != NULL) {
+    anterior = pedidosEntregadosRepartidor;
+    pedidosEntregadosRepartidor = pedidosEntregadosRepartidor->siguiente;
+  }
+  // anterior->siguiente = new NodoPedido;
+  nodoPedidoEncontrado->siguiente = NULL;
+  anterior->siguiente = nodoPedidoEncontrado;
+  desencolarPedido(listaColaPedidos, nodoPedidoEncontrado->pedido);
+  // TODO: Mensaje de exito;
+  return;
 }
 
 //TODO: fijarse el tema del puntero en repartidor, tambien se puede pasar por referencia un puntero ya creado
 Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int cantidadRepartidoresActuales){
-  int i = 0;
-  while(i < cantidadRepartidoresActuales && dniRepartidor != repartidores[i].dni)
-  {
-    i++;
-  }
-  //no lo encontro
-  if(i == cantidadRepartidoresActuales)
-  {
-    return nullptr; 
-  }
-  //encontro el repartidor
-  else
-  {
-    Repartidor* punteroRepartidor = &repartidores[i];
-    return punteroRepartidor; 
-  }
-}
-
-void mostrarPedidos(ListaColaPedidos* listaColaPedidos) {
-  //system("cls");
-  while(listaColaPedidos != NULL) {
-    NodoPedido* primerNodo = listaColaPedidos->colaPedidos->primero;
-    cout << "Zona: " << listaColaPedidos->zona + 1 << " Vehiculo: " << returnNombreVehiculo(listaColaPedidos->tipoVehiculo) << endl;
-    cout << "Importe p/paquete: [ ";
-
-    while(primerNodo != NULL) {
-      cout << primerNodo->pedido.importe << ", ";
-      primerNodo = primerNodo->siguiente;
+  for(int i = 0; i < cantidadRepartidoresActuales; i++) {
+    if (repartidores[i].dni == dniRepartidor) {
+      Repartidor* punteroRepartidor = &repartidores[i];
+      return punteroRepartidor; 
     }
-
-    cout << "]" << endl << endl;
-    listaColaPedidos = listaColaPedidos->siguienteCola;
   }
+  return nullptr; 
 }
 
 void agregarPedidoACola(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
@@ -221,8 +197,8 @@ void agregarPedidoACola(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   ListaColaPedidos* actual = listaColaPedidos;
   ListaColaPedidos* anterior = actual;
 
+  // Ya hay una cola de pedidos con zona y tipo de vehiculo
   while(actual != NULL) {
-    // Ya hay una cola de pedidos con zona y tipo de vehiculo
     if (actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == Vehiculos(determinarVehiculoDelPedido(pedido))) {
       // 1 nodo
       if (actual->colaPedidos->ultimo == NULL) {
@@ -283,7 +259,7 @@ NodoPedido* buscarPedido(Repartidor* repartidor, ListaColaPedidos* listaColaPedi
     if(listaColaPedidos->zona == repartidor->zona && listaColaPedidos->tipoVehiculo == repartidor->vehiculo.tipo){
       return listaColaPedidos->colaPedidos->primero;
     }
-    else{
+    else {
       listaColaPedidos = listaColaPedidos->siguienteCola;
     }
   }
@@ -301,24 +277,22 @@ void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
     if (actual->colaPedidos->primero->siguiente == NULL) {
       delete actual->colaPedidos->primero;
       delete actual->colaPedidos;
-      // TODO: faltan otros deletes?
+      delete actual;
       listaColaPedidos = NULL;
-      return;
     }
-    else {
+    else { // Revisar mejor...
       actual->colaPedidos->primero = actual->colaPedidos->primero->siguiente;
       if (actual->colaPedidos->primero == actual->colaPedidos->ultimo) {
         delete actual->colaPedidos->ultimo;
         actual->colaPedidos->ultimo = NULL;
-        return;
       }
-      return;
     }
+    return;
   }
 
   while(actual != NULL) {
     // encontre la cola
-    if(actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == determinarVehiculoDelPedido(pedido)){
+    if(actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == Vehiculos(determinarVehiculoDelPedido(pedido))){
       // Hay 1 solo pedido
       if (actual->colaPedidos->primero->siguiente == NULL) {
         //borrar el pedido, y borrar la cola
@@ -327,15 +301,13 @@ void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
         anterior->siguienteCola = actual->siguienteCola;
         delete actual;
         return;
-      }
+      } //99% seguro que esta ok
       // Hay mas de un pedido
       else {
-        //TODO: Posiblemente necesite un auxiliar para borrar esto
         actual->colaPedidos->primero = actual->colaPedidos->primero->siguiente;
         if (actual->colaPedidos->primero == actual->colaPedidos->ultimo) {
           delete actual->colaPedidos->ultimo;
           actual->colaPedidos->ultimo = NULL;
-          return;
         }
         return;
       }
