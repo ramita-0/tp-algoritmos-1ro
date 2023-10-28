@@ -121,26 +121,48 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
 
 // Se lo agrega al repartidor
 void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
-  //TODO: Validacion del input
+  cin.clear();
+  cin.ignore(numeric_limits<streamsize>::max(), '\n');
+  string input;
+  bool error = false;
+
   int dniRepartidor;
-  cout<<"DNI del repartidor a asignar: ";
-  cin>> dniRepartidor;
+  
+  do { // input dni loop
+    system("cls");
+    if (error) {
+      cout << "Formato de DNI Invalido!" << endl;
+      cout << "Por favor, ingrese un DNI valido de un repartidor al que se le asignara un pedido: ";
+    }
+    else cout<<"DNI del repartidor al que se le asignara un pedido: ";
+    
+    getline(cin, input);
+    if (!containsOnlyDigits(input) || cin.fail()) {
+      error = true;
+    }
+    else {
+      error = false;
+      dniRepartidor = stoi(input);
+    } 
+  } while(error);
 
   Repartidor* punteroRepartidor = buscarRepartidor(dniRepartidor, repartidores, cantidadRepartidoresActuales);
 
-  string out;
   if(punteroRepartidor == nullptr) {
-    cout<<"No existe un repartidor con DNI: " << dniRepartidor << endl;
-    cin >> out;
+    system("cls");
+    cout<<"No existe un repartidor con DNI: " << dniRepartidor << endl << endl;
+    cout << "Ingrese cualquier numero para volver" << endl << endl;
+    cin >> input;
     return;
   }
 
   NodoPedido* nodoPedidoEncontrado = buscarPedido(punteroRepartidor, listaColaPedidos);
 
-  if(nodoPedidoEncontrado == nullptr ) {
-    cout << nodoPedidoEncontrado;
-    cout<<"No hay pedidos para asignar"<<endl;
-    cin >> out;
+  if(nodoPedidoEncontrado == nullptr) {
+    system("cls");
+    cout<<"No hay pedidos para asignar" <<endl << endl;
+    cout << "Ingrese cualquier numero para volver" << endl << endl;
+    cin >> input;
     return;
   }
 
@@ -148,7 +170,6 @@ void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, 
   desencolarPedido(listaColaPedidos, nodoPedidoEncontrado->pedido);
 }
 
-//TODO: fijarse el tema del puntero en repartidor, tambien se puede pasar por referencia un puntero ya creado
 Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int cantidadRepartidoresActuales){
   for(int i = 0; i < cantidadRepartidoresActuales; i++) {
     if (repartidores[i].dni == dniRepartidor) {
@@ -196,7 +217,7 @@ void agregarPedidoACola(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   }
 }
 
-// TODO: Fix as when there are >1 repartidores in the array it does not validate correctly.
+
 bool pedidoEsValido(Repartidor repartidores[], int cantidadRepartidoresActuales, Pedido pedido) {
   Vehiculos vehiculoPedido = Vehiculos(determinarVehiculoDelPedido(pedido));
   for(int i = 0; i < cantidadRepartidoresActuales; i++) {

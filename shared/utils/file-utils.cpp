@@ -26,45 +26,22 @@ void writeToFiles(Repartidor repartidores[], int size) {
   fclose(camionetaFile);
 }
 
-void lecturaArchivoRepartidores(Repartidor repartidores[],int &cantidadRepartidoresActuales){
-  FILE *autoFile = fopen("./data/RepAuto.dat", "rb"); 
-  FILE *motoFile = fopen("./data/RepMoto.dat", "rb"); 
-  FILE *camionFile = fopen("./data/RepCamion.dat", "rb"); 
-  FILE *camionetaFile = fopen("./data/RepCamioneta.dat", "rb");
-  int i = 0;
-  Repartidor r;
-  
-  fread(&r,sizeof(Repartidor),1,autoFile);
-  while(!feof(autoFile))
-  {
-    repartidores[i] = r;
-    i ++;
-    fread(&r,sizeof(Repartidor),1,autoFile);
-  }
-  
-  fread(&r,sizeof(Repartidor),1,motoFile);
-  while(!feof(motoFile))
-  {
-    repartidores[i] = r;
-    i ++;
-    fread(&r,sizeof(Repartidor),1,motoFile);
-  }
+void populateRepartidoresArrayAtStart(Repartidor repartidores[],int &cantidadRepartidoresActuales){
+  const char* vehiculoFiles[] = {"./data/RepAuto.dat", "./data/RepMoto.dat", "./data/RepCamion.dat", "./data/RepCamioneta.dat"};
+    int i = 0;
+    Repartidor repartidorActual;
 
-  fread(&r,sizeof(Repartidor),1,camionFile);
-  while(!feof(camionFile))
-  {
-    repartidores[i] = r;
-    i ++;
-    fread(&r,sizeof(Repartidor),1,camionFile);
-  }
+    for (const char* filename : vehiculoFiles) {
+        FILE* file = fopen(filename, "rb");
+        if (file) {
+            while (fread(&repartidorActual, sizeof(Repartidor), 1, file)) {
+                repartidores[i] = repartidorActual;
+                i++;
+            }
+            fclose(file);
+        }
+    }
 
-  fread(&r,sizeof(Repartidor),1,camionetaFile);
-  while(!feof(camionetaFile))
-  {
-    repartidores[i] = r;
-    i ++;
-    fread(&r,sizeof(Repartidor),1,camionetaFile);
-  }
-  cantidadRepartidoresActuales = i;
-  ordenamientoDeRepartidores(repartidores,cantidadRepartidoresActuales);
+    cantidadRepartidoresActuales = i;
+    ordenamientoDeRepartidores(repartidores, cantidadRepartidoresActuales);
 }

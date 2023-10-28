@@ -18,9 +18,9 @@ int main() {
   // Estado de la app
   Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
-  ListaColaPedidos* listaColaPedidos = NULL; // TODO: chequear esta inicializacion
+  ListaColaPedidos* listaColaPedidos = NULL;
 
-  lecturaArchivoRepartidores(repartidores,cantidadRepartidoresActuales);
+  populateRepartidoresArrayAtStart(repartidores,cantidadRepartidoresActuales);
   for(int i = 0; i < cantidadRepartidoresActuales; i ++) {
     repartidores[i].listaPedidosEntregados = NULL;
   }
