@@ -8,7 +8,7 @@ using namespace std;
 void repartidoresPorZona(int matriz[4][14], int size, int vectorSuma[]);
 int maximoZona(int vectorSuma[]);
 void informeDeZonas(int vectorSuma[], int maximo);
-void mostrarPedidos(ListaColaPedidos*);
+void informarPedidosEnEsperaDeSerRetirados(ListaColaPedidos*);
 
 void mostrarTransportesNoDisponibles(int arr[]);
 void sumatoriaVehiculosTotaleseEntreZonas (int arr[], int matriz[4][14]);
@@ -181,10 +181,10 @@ void informarEntregasRealizadasPorRepartidores(Repartidor repartidores[], int ca
   cin >> out; 
 }
 
-void mostrarPedidos(ListaColaPedidos* listaColaPedidos) {
+void informarPedidosEnEsperaDeSerRetirados(ListaColaPedidos* listaColaPedidos) {
   system("cls");
   if (listaColaPedidos == NULL) {
-    cout << "No hay pedidos" << endl << endl;
+    cout << "No hay pedidos en espera de ser retirados" << endl << endl;
   }
   while(listaColaPedidos != NULL) {
     NodoPedido* primerNodo = listaColaPedidos->colaPedidos->primero;

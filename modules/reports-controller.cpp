@@ -40,7 +40,7 @@ void informesMain(Repartidor repartidores[], int cantidadRepartidoresActuales, L
       break;
     case 5:
       error = false;
-      mostrarPedidos(listaColaPedidos);
+      informarPedidosEnEsperaDeSerRetirados(listaColaPedidos);
     case 0:
       return;
     default:
@@ -57,6 +57,6 @@ void printInformesMenu(bool error) {
   cout<<"2 - Informar medios de transportes no existentes (de todas las zonas)"<<endl;
   cout<<"3 - Informar zonas con mas repartidores inscriptos"<<endl;
   cout<<"4 - Informar todas las entregas realizadas por los repartidores"<<endl;
-  cout<<"5 - Mostrar pedidos"<<endl;
+  cout<<"5 - Informar pedidos a la espera de ser retirados"<<endl;
   cout<<"0 - Volver"<<endl<<endl;
 }

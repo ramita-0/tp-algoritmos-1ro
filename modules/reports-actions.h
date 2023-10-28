@@ -10,4 +10,4 @@ void informarZonasConMayorCantidadDeRepartidores (Repartidor[], int);
 
 void informarEntregasRealizadasPorRepartidores (Repartidor[], int);
 
-void mostrarPedidos(ListaColaPedidos*);
+void informarPedidosEnEsperaDeSerRetirados(ListaColaPedidos*);
