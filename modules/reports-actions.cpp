@@ -169,7 +169,7 @@ void informarEntregasRealizadasPorRepartidores(Repartidor repartidores[], int ca
       cout<<"Codigo de comercio de paquetes entregados: [ ";
       NodoPedido* listaPedidos = repartidorActual.listaPedidosEntregados;
       while (listaPedidos != NULL) {
-        cout << listaPedidos->pedido.codigoComercio << " ";
+        cout << listaPedidos->pedido.codigoComercio << ", ";
         listaPedidos = listaPedidos->siguiente;
       }
       cout<<"]"<<endl<<endl;

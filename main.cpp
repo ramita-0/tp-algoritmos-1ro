@@ -57,6 +57,7 @@ int main() {
 
 void printMainMenu(bool error) {
   system("cls");
+  system("cls");
   if (error) cout<<"Opcion incorrecta!"<<endl<<endl;
   cout<<"1 - Gestionar Repartidores"<<endl;
   cout<<"2 - Gestionar Pedidos"<<endl;
