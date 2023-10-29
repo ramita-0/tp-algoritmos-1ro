@@ -8,6 +8,7 @@
 #include "./modules/reports-controller.h"
 #include "./shared/data-structures/lista-cola-pedidos.h"
 #include "./shared/data-structures/nodo-arbol.h"
+#include "./modules/reports-actions.h"
 using namespace std;
 
 void printMainMenu(bool error);
@@ -15,14 +16,12 @@ void printMainMenu(bool error);
 int main() {
   int userInput = 999;
   bool error = false;
-
   // Estado de la app
   Repartidor repartidores[1120] = {};
   int cantidadRepartidoresActuales = 0;
   nodoArbol* raiz = NULL;
   lecturaArchivoRepartidores(repartidores,cantidadRepartidoresActuales);
-  ListaColaPedidos* listaColaPedidos = NULL; // TODO: chequear esta inicializacion
-
+  ListaColaPedidos* listaColaPedidos = NULL;// TODO: chequear esta inicializacion
   do {
     printMainMenu(error);
     cin >> userInput;

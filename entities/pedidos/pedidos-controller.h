@@ -7,4 +7,3 @@ void printMenuPedidos(bool);
 
 void pedidosMain(Repartidor[], int, ListaColaPedidos*&, nodoArbol*& raiz);
 
-void mostrarArbolInorder(nodoArbol* raiz);

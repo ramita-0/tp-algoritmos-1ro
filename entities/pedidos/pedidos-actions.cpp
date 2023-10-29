@@ -17,7 +17,9 @@ NodoPedido* buscarPedido(Repartidor* repartidor, ListaColaPedidos* listaColaPedi
 void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido);
 void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos, nodoArbol*& raiz);
 void agregarAlArbol(nodoArbol*& raiz, Pedido pedido);
-void mostrarArbolInorder(nodoArbol* raiz);
+nodoArbol* buscarEnArbol(nodoArbol* raiz,Pedido pedido);
+void insertarEnArbol(nodoArbol*& raiz, Pedido pedido);
+
 
 void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
   cin.clear();
@@ -371,10 +373,10 @@ nodoArbol* buscarEnArbol(nodoArbol* raiz,Pedido pedido){
   nodoArbol*r=raiz;
     while(r!=NULL && r->codigoComercio != pedido.codigoComercio)
     {
-        if(pedido.codigoComercio<r->codigoComercio)
-            r=r->izquierda;
+        if(pedido.codigoComercio < r->codigoComercio)
+            r = r->izquierda;
         else
-            r=r->derecha;
+            r = r->derecha;
     }
     return r;
 }
@@ -389,16 +391,15 @@ void insertarEnArbol(nodoArbol*& raiz, Pedido pedido){
         raiz = n;
     else
     {
-        nodoArbol*r;
+        nodoArbol*r = raiz;
         nodoArbol*anterior;
-        r = raiz;
         while(r!=NULL)
         {
-            anterior=r;
+            anterior = r;
             if(pedido.codigoComercio < r->codigoComercio)
-                r=r->izquierda;
+                r = r->izquierda;
             else
-                r=r->derecha;
+                r = r->derecha;
         }
         if(pedido.codigoComercio < anterior->codigoComercio)
             anterior->izquierda = n;
@@ -407,12 +408,3 @@ void insertarEnArbol(nodoArbol*& raiz, Pedido pedido){
     }
 }
 
-
-void mostrarArbolInorder(nodoArbol* raiz){
-  if(raiz!=NULL){
-    mostrarArbolInorder(raiz->izquierda);
-    cout<<"codigo de comercio: "<<raiz->codigoComercio<<" ventas realizadas: "<<raiz->ventas;
-    mostrarArbolInorder(raiz->derecha);
-   }
-
-}
