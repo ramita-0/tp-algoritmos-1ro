@@ -3,6 +3,7 @@
 #include "file-utils.h"
 #include "general-utils.h"
 #include "../model/repartidor.model.h"
+#include "../data-structures/lista-cola-pedidos.h"
 using namespace std;
 
 void writeToFiles(Repartidor repartidores[], int size) {
@@ -44,4 +45,17 @@ void populateRepartidoresArrayAtStart(Repartidor repartidores[],int &cantidadRep
 
     cantidadRepartidoresActuales = i;
     ordenamientoDeRepartidores(repartidores, cantidadRepartidoresActuales);
+}
+
+void generarArchivoConPedidosNoEntregados(ListaColaPedidos* listaColaPedidos) {
+  FILE *pedidosNoEntregadosFile = fopen("./data/PedidosNoEntregados.dat", "wb"); 
+  while (listaColaPedidos != NULL) {
+    NodoPedido* nodoPedidoActual = listaColaPedidos->colaPedidos->primero;
+    while (nodoPedidoActual != NULL) {
+      fwrite(&nodoPedidoActual->pedido, sizeof(Pedido), 1, pedidosNoEntregadosFile);
+      nodoPedidoActual = nodoPedidoActual->siguiente;
+    }
+    listaColaPedidos = listaColaPedidos->siguienteCola;
+  }
+  fclose(pedidosNoEntregadosFile);
 }
