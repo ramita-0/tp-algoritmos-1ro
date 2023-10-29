@@ -5,5 +5,5 @@
 
 void ingresarPedido(Repartidor[], int, ListaColaPedidos*&);
 
-void asignarPedido(Repartidor[], int, ListaColaPedidos*&, NodoArbol*& raiz);
+void asignarPedido(Repartidor[], int, ListaColaPedidos*&, NodoArbol*&);
 

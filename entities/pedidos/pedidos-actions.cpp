@@ -29,7 +29,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
   bool errorPaqueteValido = false;
   string input = "";
 
-  do { // Loop hasta ingresar un paquete valido wertgerfdcv 
+  do { // Loop hasta ingresar un paquete valido
     if (errorPaqueteValido) {
       system("cls");
       cout << "No existen repartidores en la zona a repartir con el vehiculo precisado por el volumen del pedido." << endl;
@@ -125,7 +125,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
 
 
 // Se lo agrega al repartidor
-void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
+void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos, NodoArbol*& raiz) {
   cin.clear();
   cin.ignore(numeric_limits<streamsize>::max(), '\n');
   string input;
@@ -172,6 +172,7 @@ void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, 
   }
 
   punteroRepartidor->agregarPedido(nodoPedidoEncontrado->pedido);
+  agregarAlArbol(raiz, nodoPedidoEncontrado->pedido);
   desencolarPedido(listaColaPedidos, nodoPedidoEncontrado->pedido);
 }
 

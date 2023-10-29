@@ -5,5 +5,5 @@
 
 void printMenuPedidos(bool);
 
-void pedidosMain(Repartidor[], int, ListaColaPedidos*&, NodoArbol*& raiz);
+void pedidosMain(Repartidor[], int, ListaColaPedidos*&, NodoArbol*&);
 
