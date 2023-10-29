@@ -13,7 +13,7 @@ struct Repartidor {
   NodoPedido* listaPedidosEntregados;
 
   void agregarPedido(Pedido pedido) {
-    //TODO: Agregarlo ordenadamente
+    //TODO: Agregarlo ordenadamente de menor a mayor por importe (REVISAR)
     if(this->listaPedidosEntregados == NULL) {
       this->listaPedidosEntregados = new NodoPedido;
       this->listaPedidosEntregados->pedido = pedido;
@@ -21,23 +21,21 @@ struct Repartidor {
       return;
     }
 
-    if(this->listaPedidosEntregados->siguiente == NULL) {
-      this->listaPedidosEntregados->siguiente = new NodoPedido;
-      this->listaPedidosEntregados->siguiente->pedido = pedido;
-      this->listaPedidosEntregados->siguiente->siguiente = NULL;
-      return;
-    }
+    NodoPedido* actual = this->listaPedidosEntregados;
+    NodoPedido* anterior = this->listaPedidosEntregados;
+    NodoPedido* nuevoNodo = new NodoPedido;
+    nuevoNodo->pedido = pedido;
 
-    NodoPedido* actual = listaPedidosEntregados;
-    NodoPedido* anterior = listaPedidosEntregados;
-
-    while(actual != NULL) {
+    while(actual != NULL && actual->pedido.importe < pedido.importe) {
       anterior = actual;
       actual = actual->siguiente;
     }
-
-    anterior->siguiente = new NodoPedido;
-    anterior->siguiente->pedido = pedido;
-    anterior->siguiente->siguiente = NULL;
+    if (actual == this->listaPedidosEntregados) {
+      nuevoNodo->siguiente = actual; 
+      this->listaPedidosEntregados = nuevoNodo;
+      return;
+    }
+    nuevoNodo->siguiente = actual;
+    anterior->siguiente = nuevoNodo;
   }
 };

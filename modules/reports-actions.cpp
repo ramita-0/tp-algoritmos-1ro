@@ -167,10 +167,10 @@ void informarEntregasRealizadasPorRepartidores(Repartidor repartidores[], int ca
     if (repartidorActual.listaPedidosEntregados != NULL) { 
       j++;
       cout<<repartidorActual.nombre<<" "<<repartidorActual.apellido<<" "<<repartidorActual.dni << endl;
-      cout<<"Codigo de comercio de paquetes entregados: [ ";
+      cout<<"Importes de los paquetes entregados: [ ";
       NodoPedido* listaPedidos = repartidorActual.listaPedidosEntregados;
       while (listaPedidos != NULL) {
-        cout << listaPedidos->pedido.codigoComercio << ", ";
+        cout << listaPedidos->pedido.importe << ", ";
         listaPedidos = listaPedidos->siguiente;
       }
       cout<<"]"<<endl<<endl;
@@ -208,8 +208,7 @@ void informarPedidosEnEsperaDeSerRetirados(ListaColaPedidos* listaColaPedidos) {
 void mostrarArbolInorder(NodoArbol* raiz){
   if(raiz != NULL) {
     mostrarArbolInorder(raiz->izquierda);
-    cout<<"Codigo de comercio: "<<raiz->codigoComercio<<", ventas realizadas: "<<raiz->ventas;
+    cout<<"Codigo de comercio: "<<raiz->codigoComercio<<", ventas realizadas: "<<raiz->ventas << endl;
     mostrarArbolInorder(raiz->derecha);
   }
-  else cout << "No se realizaron entregas";
 }
