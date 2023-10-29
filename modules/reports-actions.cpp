@@ -3,6 +3,7 @@
 #include "../shared/model/repartidor.model.h"
 #include "../shared/utils/general-utils.h"
 #include "../shared/utils/business-utils.h"
+#include "../shared/data-structures/nodo-arbol.h"
 using namespace std;
 
 void repartidoresPorZona(int matriz[4][14], int size, int vectorSuma[]);
@@ -202,4 +203,12 @@ void informarPedidosEnEsperaDeSerRetirados(ListaColaPedidos* listaColaPedidos) {
   cout << "Ingrese cualquier numero para volver"<<endl<<endl;
   string out;
   cin >> out;
+}
+
+void mostrarArbolInorder(NodoArbol* raiz){
+  if(raiz != NULL) {
+    mostrarArbolInorder(raiz->izquierda);
+    cout<<"Codigo de comercio: "<<raiz->codigoComercio<<", ventas realizadas: "<<raiz->ventas;
+    mostrarArbolInorder(raiz->derecha);
+  }
 }

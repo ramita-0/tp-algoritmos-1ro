@@ -3,11 +3,12 @@
 #include "./pedidos-controller.h"
 #include "./pedidos-actions.h"
 #include "../../shared/data-structures/cola-pedidos.h"
+#include "../../shared/data-structures/nodo-arbol.h"
 using namespace std;
 
 void printMenuPedidos(bool error);
 
-void pedidosMain(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
+void pedidosMain(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos, NodoArbol*& raiz) {
   bool error = false;
   int userInput = 999;
 
@@ -27,7 +28,7 @@ void pedidosMain(Repartidor repartidores[], int cantidadRepartidoresActuales, Li
         break;
       case 2:
         error = false;
-        asignarPedido(repartidores, cantidadRepartidoresActuales, listaColaPedidos);
+        asignarPedido(repartidores, cantidadRepartidoresActuales, listaColaPedidos, raiz);
         break;
       case 0:
         return;

@@ -6,6 +6,7 @@
 #include "../../shared/utils/file-utils.h"
 #include "../../shared/utils/general-utils.h"
 #include "../../shared/utils/business-utils.h"
+#include "../../shared/data-structures/nodo-arbol.h"
 using namespace std;
 
 bool pedidoEsValido(Repartidor[], int, Pedido);
@@ -13,7 +14,11 @@ void agregarPedidoACola(ListaColaPedidos*&, Pedido);
 Repartidor* buscarRepartidor(int dniRepartidor,Repartidor repartidores[], int cantidadRepartidoresActuales);
 NodoPedido* buscarPedido(Repartidor* repartidor, ListaColaPedidos* listaColaPedidos);
 void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido);
-void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos);
+void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos, NodoArbol*& raiz);
+void agregarAlArbol(NodoArbol*& raiz, Pedido pedido);
+NodoArbol* buscarEnArbol(NodoArbol* raiz,Pedido pedido);
+void insertarEnArbol(NodoArbol*& raiz, Pedido pedido);
+
 
 void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
   cin.clear();
@@ -261,3 +266,55 @@ void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
     actual = actual->siguienteCola;
   }
 }
+
+
+void agregarAlArbol(NodoArbol*& raiz, Pedido pedido){
+  NodoArbol* n;
+  n = buscarEnArbol(raiz,pedido);
+  if(n == NULL){
+    insertarEnArbol(raiz,pedido);
+  }
+  else{
+    n->ventas++;
+  }
+}
+
+NodoArbol* buscarEnArbol(NodoArbol* raiz,Pedido pedido){
+  NodoArbol*r=raiz;
+    while(r!=NULL && r->codigoComercio != pedido.codigoComercio)
+    {
+        if(pedido.codigoComercio < r->codigoComercio)
+            r = r->izquierda;
+        else
+            r = r->derecha;
+    }
+    return r;
+}
+
+void insertarEnArbol(NodoArbol*& raiz, Pedido pedido){
+  NodoArbol*n = new NodoArbol;
+    n->codigoComercio = pedido.codigoComercio;
+    n->ventas = 1;
+    n->izquierda=NULL;
+    n->derecha=NULL;
+    if(raiz == NULL)
+        raiz = n;
+    else
+    {
+        NodoArbol*r = raiz;
+        NodoArbol*anterior;
+        while(r!=NULL)
+        {
+            anterior = r;
+            if(pedido.codigoComercio < r->codigoComercio)
+                r = r->izquierda;
+            else
+                r = r->derecha;
+        }
+        if(pedido.codigoComercio < anterior->codigoComercio)
+            anterior->izquierda = n;
+        else
+            anterior->derecha = n;
+    }
+}
+
