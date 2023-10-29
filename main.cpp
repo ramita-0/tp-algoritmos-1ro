@@ -53,6 +53,7 @@ int main() {
         informesMain(repartidores, cantidadRepartidoresActuales, listaColaPedidos);
         break;
       case 0:
+        system("cls");
         mostrarArbolInorder(raiz);
         return 0;
       default:

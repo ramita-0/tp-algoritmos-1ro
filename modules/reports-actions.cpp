@@ -211,4 +211,5 @@ void mostrarArbolInorder(NodoArbol* raiz){
     cout<<"Codigo de comercio: "<<raiz->codigoComercio<<", ventas realizadas: "<<raiz->ventas;
     mostrarArbolInorder(raiz->derecha);
   }
+  else cout << "No se realizaron entregas";
 }
