@@ -5,6 +5,7 @@
 #include "./shared/model/repartidor.model.h"
 #include "./entities/repartidores/repartidores-controller.h"
 #include "./entities/pedidos/pedidos-controller.h"
+#include "./entities/pedidos/pedidos-actions.h"
 #include "./modules/reports-controller.h"
 #include "./shared/data-structures/lista-cola-pedidos.h"
 #include "./shared/data-structures/nodo-arbol.h"
@@ -55,6 +56,7 @@ int main() {
       case 0:
         system("cls");
         mostrarArbolInorder(raiz);
+        generarArchivoConPedidosNoEntregados(listaColaPedidos);
         return 0;
       default:
         error = true;
