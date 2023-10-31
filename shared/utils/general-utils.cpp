@@ -1,4 +1,5 @@
 #include <iostream>
+#include "general-utils.h"
 #include "../model/repartidor.model.h"
 
 void generarSumatoriaVehiculosZona(int mat[4][14], Repartidor repartidores[], int cantidadRepartidoresActuales) {
@@ -21,4 +22,14 @@ void ordenamientoDeRepartidores(Repartidor repartidores[], int size) {
     }
   }
   return;
+}
+
+bool containsOnlyDigits(string string) {
+    if (string.length() == 0) return false;
+    for (char c : string) {
+        if (!isdigit(c)) {
+            return false;
+        }
+    }
+    return true;
 }

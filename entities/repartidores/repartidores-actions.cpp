@@ -1,16 +1,16 @@
 #include <iostream>
 #include <stdlib.h>
+#include <stdio.h>
 #include <limits>
 #include <regex>
 #include <algorithm>
 #include <cctype>
-#include "./repartidores-actions.h"
+#include "repartidores-actions.h"
 #include "../../shared/model/repartidor.model.h"
 #include "../../shared/utils/file-utils.h"
 #include "../../shared/utils/general-utils.h"
+#include "../../shared/utils/business-utils.h"
 using namespace std;
-
-bool containsOnlyDigits(string string);
 
 void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActuales) {
   cin.clear();
@@ -25,9 +25,10 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
   while (repartidoresRestantes != 0) { // main new repartidor loop
 
     Repartidor newRepartidor;
+    newRepartidor.listaPedidosEntregados = NULL; // TODO: Justificar
     bool error = false;
     bool maxRepZonaVehiculoError = false;
-
+    
     while (true) {
 
       do { // input zona loop
@@ -42,7 +43,7 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         else {
           int validInput = stoi(input);
 
-          if (validInput >= 1 && validInput <= 14) {
+          if (zonaEsValida(validInput)) {
             newRepartidor.zona = validInput - 1;
             error = false;
           }
@@ -65,9 +66,9 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
         else {
           int validInput = stoi(input);
 
-          if (validInput >= 1 && validInput <= 4) {
-            error = false;
+          if (vehiculoEsValido(validInput)) {
             newRepartidor.vehiculo.tipo = Vehiculos(validInput - 1);
+            error = false;
           }
           else error = true;
         }
@@ -161,12 +162,3 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
   return;
 }
 
-bool containsOnlyDigits(string string) {
-    if (string.length() == 0) return false;
-    for (char c : string) {
-        if (!isdigit(c)) {
-            return false;
-        }
-    }
-    return true;
-}

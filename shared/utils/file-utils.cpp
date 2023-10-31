@@ -1,7 +1,9 @@
 #include <iostream>
 #include <stdio.h>
+#include "file-utils.h"
+#include "general-utils.h"
 #include "../model/repartidor.model.h"
-#include "./general-utils.h"
+#include "../data-structures/lista-cola-pedidos.h"
 using namespace std;
 
 void writeToFiles(Repartidor repartidores[], int size) {
@@ -23,4 +25,37 @@ void writeToFiles(Repartidor repartidores[], int size) {
   fclose(motoFile);
   fclose(camionFile);
   fclose(camionetaFile);
+}
+
+void populateRepartidoresArrayAtStart(Repartidor repartidores[],int &cantidadRepartidoresActuales){
+  const char* vehiculoFiles[] = {"./data/RepAuto.dat", "./data/RepMoto.dat", "./data/RepCamion.dat", "./data/RepCamioneta.dat"};
+    int i = 0;
+    Repartidor repartidorActual;
+
+    for (const char* filename : vehiculoFiles) {
+        FILE* file = fopen(filename, "rb");
+        if (file) {
+            while (fread(&repartidorActual, sizeof(Repartidor), 1, file)) {
+                repartidores[i] = repartidorActual;
+                i++;
+            }
+            fclose(file);
+        }
+    }
+
+    cantidadRepartidoresActuales = i;
+    ordenamientoDeRepartidores(repartidores, cantidadRepartidoresActuales);
+}
+
+void generarArchivoConPedidosNoEntregados(ListaColaPedidos* listaColaPedidos) {
+  FILE *pedidosNoEntregadosFile = fopen("./data/PedidosNoEntregados.dat", "wb"); 
+  while (listaColaPedidos != NULL) {
+    NodoPedido* nodoPedidoActual = listaColaPedidos->colaPedidos->primero;
+    while (nodoPedidoActual != NULL) {
+      fwrite(&nodoPedidoActual->pedido, sizeof(Pedido), 1, pedidosNoEntregadosFile);
+      nodoPedidoActual = nodoPedidoActual->siguiente;
+    }
+    listaColaPedidos = listaColaPedidos->siguienteCola;
+  }
+  fclose(pedidosNoEntregadosFile);
 }
