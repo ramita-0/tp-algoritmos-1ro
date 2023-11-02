@@ -18,7 +18,9 @@ void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, 
 void agregarAlArbol(NodoArbol*& raiz, Pedido pedido);
 NodoArbol* buscarEnArbol(NodoArbol* raiz,Pedido pedido);
 void insertarEnArbol(NodoArbol*& raiz, Pedido pedido);
-
+void agregarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido);
+void agregarPedidoListaPedidosEntregadosRepartidor(Repartidor*& repartidor, Pedido pedido);
+void sacarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido);
 
 void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
   cin.clear();
@@ -163,7 +165,7 @@ void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, 
 
   NodoPedido* nodoPedidoEncontrado = buscarPedido(punteroRepartidor, listaColaPedidos);
 
-  if(nodoPedidoEncontrado == nullptr) {
+  if(nodoPedidoEncontrado == NULL) {
     system("cls");
     cout<<"No hay pedidos para asignar" << endl << endl;
     cout << "Ingrese cualquier numero para volver" << endl << endl;
@@ -239,7 +241,6 @@ bool pedidoEsValido(Repartidor repartidores[], int cantidadRepartidoresActuales,
 NodoPedido* buscarPedido(Repartidor* repartidor, ListaColaPedidos* listaColaPedidos) {
   while(listaColaPedidos != NULL) {
     if(listaColaPedidos->zona == repartidor->zona && listaColaPedidos->tipoVehiculo == repartidor->vehiculo.tipo){
-      if (listaColaPedidos->colaPedidos->primero == NULL) return nullptr;
       return listaColaPedidos->colaPedidos->primero;
     }
     listaColaPedidos = listaColaPedidos->siguienteCola;
