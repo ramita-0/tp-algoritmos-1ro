@@ -10,7 +10,7 @@
 using namespace std;
 
 bool pedidoEsValido(Repartidor[], int, Pedido);
-void agregarPedidoACola(ListaColaPedidos*&, Pedido);
+void agregarPedido(ListaColaPedidos*&, Pedido);
 Repartidor* buscarRepartidor(int dniRepartidor,Repartidor repartidores[], int cantidadRepartidoresActuales);
 NodoPedido* buscarPedido(Repartidor* repartidor, ListaColaPedidos* listaColaPedidos);
 void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido);
@@ -122,7 +122,7 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
   newPedido.domicilio = input;
 
   // TODO: Guardar pedido en la cola, preguntar al usuario si quere seguir agregando pedidos o salir
-  agregarPedidoACola(listaColaPedidos, newPedido);
+  agregarPedido(listaColaPedidos, newPedido);
 }
 
 
@@ -155,7 +155,7 @@ void asignarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, 
 
   Repartidor* punteroRepartidor = buscarRepartidor(dniRepartidor, repartidores, cantidadRepartidoresActuales);
 
-  if(punteroRepartidor == nullptr) {
+  if(punteroRepartidor == NULL) {
     system("cls");
     cout<<"No existe un repartidor con DNI: " << dniRepartidor << endl << endl;
     cout << "Ingrese cualquier numero para volver" << endl << endl;
@@ -185,10 +185,10 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
       return punteroRepartidor; 
     }
   }
-  return nullptr; 
+  return NULL; 
 }
 
-void agregarPedidoACola(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
+void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   if(listaColaPedidos == NULL) {
     ColaPedidos* nuevaColaPedidos = new ColaPedidos(NULL, NULL);
     agregarPedidoColaPedidos(nuevaColaPedidos, pedido);
@@ -230,8 +230,6 @@ bool pedidoEsValido(Repartidor repartidores[], int cantidadRepartidoresActuales,
   Vehiculos vehiculoPedido = Vehiculos(determinarVehiculoDelPedido(pedido));
   for(int i = 0; i < cantidadRepartidoresActuales; i++) {
     if (repartidores[i].zona == pedido.zonaDeEntrega && repartidores[i].vehiculo.tipo == vehiculoPedido) { 
-      // Existe un repartidor en la zona del paquete, con el vehiculo necesitado determinado por el volumen del pedido, 
-      // que esta disponible para realizar la entrega.
       return true;
     }
   }
@@ -245,7 +243,7 @@ NodoPedido* buscarPedido(Repartidor* repartidor, ListaColaPedidos* listaColaPedi
     }
     listaColaPedidos = listaColaPedidos->siguienteCola;
   }
-  return nullptr;
+  return NULL;
 }
 
 
