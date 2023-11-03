@@ -20,7 +20,7 @@ NodoArbol* buscarEnArbol(NodoArbol* raiz,Pedido pedido);
 void insertarEnArbol(NodoArbol*& raiz, Pedido pedido);
 void agregarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido);
 void agregarPedidoListaPedidosEntregadosRepartidor(Repartidor*& repartidor, Pedido pedido);
-void sacarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido);
+void desencolarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido);
 
 void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales, ListaColaPedidos*& listaColaPedidos) {
   cin.clear();
@@ -253,13 +253,13 @@ void desencolarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
 
   // una sola lista de colas
   if (actual->siguienteCola == NULL) {
-    sacarPedidoColaPedidos(actual->colaPedidos, pedido);
+    desencolarPedidoColaPedidos(actual->colaPedidos, pedido);
     return;
   }
 
   while(actual != NULL) {
     if(actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == Vehiculos(determinarVehiculoDelPedido(pedido))) {
-      sacarPedidoColaPedidos(actual->colaPedidos, pedido);
+      desencolarPedidoColaPedidos(actual->colaPedidos, pedido);
       return;
     }
     anterior = actual;
@@ -374,7 +374,7 @@ void agregarPedidoListaPedidosEntregadosRepartidor(Repartidor*& repartidor, Pedi
     anterior->siguiente = nuevoNodo;
   }
 
-void sacarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido) {
+void desencolarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido) {
   if (colaPedidos->ultimo == NULL){
     colaPedidos->primero = NULL;
     return;
