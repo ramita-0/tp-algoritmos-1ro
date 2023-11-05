@@ -113,14 +113,14 @@ void altaRepartidores(Repartidor repartidores[], int& cantidadRepartidoresActual
     } while (error);
 
 
-    // TODO: loop so it cant enter empty value
+    // TODO: loop so it cant enter empty value nor numbers
     system("cls");
     cout << "Ingrese el nombre del repartidor"<<endl<<endl;
 
     getline(cin, input);
     newRepartidor.nombre = input;
 
-    // TODO: loop so it cant enter empty value
+    // TODO: loop so it cant enter empty value nor numbers
     system("cls");
     cout << "Ingrese el apellido del repartidor"<<endl<<endl;
 

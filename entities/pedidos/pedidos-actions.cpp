@@ -71,9 +71,12 @@ void ingresarPedido(Repartidor repartidores[], int cantidadRepartidoresActuales,
       getline(cin, input);
       float validInput;
       try {
-        validInput= stof(input); // TODO: comprobar que este casteo anda 100% bien, no parece tener problemas de momento.
-        newPedido.volumen = validInput; 
-        error = false;
+        validInput = stof(input); // TODO: comprobar que este casteo anda 100% bien, no parece tener problemas de momento.
+        if (validInput == 0) error = true;
+        else {
+          newPedido.volumen = validInput;
+          error = false;
+        }
       } catch(exception& e) {
         error = true;
       } 
