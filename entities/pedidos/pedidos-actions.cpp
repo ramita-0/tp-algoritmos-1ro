@@ -193,10 +193,15 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
 
 void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   if(listaColaPedidos == NULL) {
-    ColaPedidos* nuevaColaPedidos = new ColaPedidos(NULL, NULL);
+    ColaPedidos* nuevaColaPedidos = new ColaPedidos;
+    nuevaColaPedidos->primero = NULL;
+    nuevaColaPedidos->ultimo = NULL;
     agregarPedidoColaPedidos(nuevaColaPedidos, pedido);
 
-    ListaColaPedidos* newListaColaPedidos = new ListaColaPedidos(Vehiculos(determinarVehiculoDelPedido(pedido)), pedido.zonaDeEntrega, nuevaColaPedidos);
+    ListaColaPedidos* newListaColaPedidos = new ListaColaPedidos;
+    newListaColaPedidos->tipoVehiculo = determinarVehiculoDelPedido(pedido);
+    newListaColaPedidos->zona = pedido.zonaDeEntrega;
+    newListaColaPedidos->colaPedidos = nuevaColaPedidos;
     listaColaPedidos = newListaColaPedidos;
 
     return;
