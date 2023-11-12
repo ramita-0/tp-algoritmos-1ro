@@ -207,7 +207,6 @@ void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   }
   // Llegue al final o lista vacia, tengo que agregar una nueva cola
   if (actual == NULL) {
-  
     ColaPedidos* nuevaColaPedidos = new ColaPedidos;
     nuevaColaPedidos->primero = NULL;
     nuevaColaPedidos->ultimo = NULL;
@@ -318,32 +317,16 @@ void insertarEnArbol(NodoArbol*& raiz, Pedido pedido){
 
 void agregarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido) {
   // 0 nodos
-  if (colaPedidos->primero == NULL) {
-    colaPedidos->primero = new NodoPedido;
-    colaPedidos->primero->pedido = pedido;
-    colaPedidos->primero->siguiente = NULL;
-    colaPedidos->ultimo = NULL;
-    return;
+  NodoPedido*nuevoPedido = new NodoPedido;
+  nuevoPedido->siguiente = NULL;
+  if(colaPedidos->ultimo != NULL){
+    colaPedidos->ultimo->siguiente = nuevoPedido;
   }
-  // 1 nodo
-  if (colaPedidos->ultimo == NULL) {
-    colaPedidos->ultimo = new NodoPedido;
-    colaPedidos->ultimo->pedido = pedido;
-    colaPedidos->ultimo->siguiente = NULL;
-    colaPedidos->primero->siguiente = colaPedidos->ultimo;
-    return;
+  else{
+    colaPedidos->primero = nuevoPedido;
   }
-  // mas de un nodo
-  NodoPedido* actual = colaPedidos->primero;
-  NodoPedido* anterior = colaPedidos->primero;
-
-  while (actual != NULL) {
-    anterior = actual;
-    actual = actual->siguiente;
-  }
-  anterior->siguiente = new NodoPedido;
-  anterior->siguiente->pedido = pedido;
-  anterior->siguiente->siguiente = NULL;
+  colaPedidos->ultimo = nuevoPedido;
+ 
 }
 
 void agregarPedidoListaPedidosEntregadosRepartidor(Repartidor*& repartidor, Pedido pedido) {
