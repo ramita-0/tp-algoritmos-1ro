@@ -196,11 +196,7 @@ void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   ListaColaPedidos* anterior = listaColaPedidos;
   anterior = actual;
 
-  while(actual != NULL) {
-    if (actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == Vehiculos(determinarVehiculoDelPedido(pedido))) {
-      agregarPedidoColaPedidos(actual->colaPedidos, pedido);
-      return;
-    }
+  while(actual != NULL && (actual->zona != pedido.zonaDeEntrega || actual->tipoVehiculo != Vehiculos(determinarVehiculoDelPedido(pedido)))) {
     anterior = actual;
     actual = actual->siguienteCola;
   }
@@ -215,9 +211,15 @@ void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
     newListaColaPedidos->tipoVehiculo = Vehiculos(determinarVehiculoDelPedido(pedido));
     newListaColaPedidos->zona = pedido.zonaDeEntrega;
     newListaColaPedidos->colaPedidos = nuevaColaPedidos;
-    if (actual == listaColaPedidos) listaColaPedidos = newListaColaPedidos;
-    else anterior->siguienteCola = newListaColaPedidos;
-    return;
+    newListaColaPedidos->siguienteCola = NULL;
+    
+    if (anterior == NULL)
+      listaColaPedidos = newListaColaPedidos;
+    else 
+      anterior->siguienteCola = newListaColaPedidos;
+  }
+  else {
+    agregarPedidoColaPedidos(actual->colaPedidos, pedido);
   }
 }
 
