@@ -188,20 +188,9 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
       return punteroRepartidor; 
     }
   }
-  return NULL; 
 }
 
 void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
-  if(listaColaPedidos == NULL) {
-    ColaPedidos* nuevaColaPedidos = new ColaPedidos(NULL, NULL);
-    agregarPedidoColaPedidos(nuevaColaPedidos, pedido);
-
-    ListaColaPedidos* newListaColaPedidos = new ListaColaPedidos(Vehiculos(determinarVehiculoDelPedido(pedido)), pedido.zonaDeEntrega, nuevaColaPedidos);
-    listaColaPedidos = newListaColaPedidos;
-
-    return;
-  }
-
   ListaColaPedidos* actual = listaColaPedidos;
   ListaColaPedidos* anterior = listaColaPedidos;
 
@@ -209,21 +198,26 @@ void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   while(actual != NULL) {
     if (actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == Vehiculos(determinarVehiculoDelPedido(pedido))) {
       agregarPedidoColaPedidos(actual->colaPedidos, pedido);
-      return;
+    } else {
+      anterior = actual;
+      actual = actual->siguienteCola;
     }
-    anterior = actual;
-    actual = actual->siguienteCola;
   }
-  // Llegue al final, tengo que agregar una nueva cola
+  // Llegue al final o lista vacia, tengo que agregar una nueva cola
   if (actual == NULL) {
-  
-    ColaPedidos* newColaPedidos = new ColaPedidos(NULL, NULL);
-    agregarPedidoColaPedidos(newColaPedidos, pedido);
-    
-    ListaColaPedidos* newListaColaPedidos = new ListaColaPedidos(Vehiculos(determinarVehiculoDelPedido(pedido)), pedido.zonaDeEntrega, newColaPedidos);
-    newListaColaPedidos->colaPedidos = newColaPedidos;
-    
-    anterior->siguienteCola = newListaColaPedidos;
+    ColaPedidos* nuevaColaPedidos = new ColaPedidos;
+    nuevaColaPedidos->primero = NULL;
+    nuevaColaPedidos->ultimo = NULL;
+    agregarPedidoColaPedidos(nuevaColaPedidos, pedido);
+
+    ListaColaPedidos* newListaColaPedidos = new ListaColaPedidos;
+    newListaColaPedidos->tipoVehiculo = Vehiculos(determinarVehiculoDelPedido(pedido));
+    newListaColaPedidos->zona = pedido.zonaDeEntrega;
+    newListaColaPedidos->colaPedidos = nuevaColaPedidos;
+    newListaColaPedidos->siguienteCola = NULL;
+
+    if (actual == listaColaPedidos) listaColaPedidos = newListaColaPedidos;
+    else anterior->siguienteCola = newListaColaPedidos;
     return;
   }
 }
@@ -323,32 +317,18 @@ void insertarEnArbol(NodoArbol*& raiz, Pedido pedido){
 
 void agregarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido) {
   // 0 nodos
-  if (colaPedidos->primero == NULL) {
-    colaPedidos->primero = new NodoPedido;
-    colaPedidos->primero->pedido = pedido;
-    colaPedidos->primero->siguiente = NULL;
-    colaPedidos->ultimo = NULL;
-    return;
+  NodoPedido* nuevoPedido = new NodoPedido;
+  nuevoPedido->pedido = pedido;
+  nuevoPedido->siguiente = NULL;
+  
+  if(colaPedidos->ultimo != NULL){
+    colaPedidos->ultimo->siguiente = nuevoPedido;
   }
-  // 1 nodo
-  if (colaPedidos->ultimo == NULL) {
-    colaPedidos->ultimo = new NodoPedido;
-    colaPedidos->ultimo->pedido = pedido;
-    colaPedidos->ultimo->siguiente = NULL;
-    colaPedidos->primero->siguiente = colaPedidos->ultimo;
-    return;
+  else{
+    colaPedidos->primero = nuevoPedido;
   }
-  // mas de un nodo
-  NodoPedido* actual = colaPedidos->primero;
-  NodoPedido* anterior = colaPedidos->primero;
-
-  while (actual != NULL) {
-    anterior = actual;
-    actual = actual->siguiente;
-  }
-  anterior->siguiente = new NodoPedido;
-  anterior->siguiente->pedido = pedido;
-  anterior->siguiente->siguiente = NULL;
+  colaPedidos->ultimo = nuevoPedido;
+ 
 }
 
 void agregarPedidoListaPedidosEntregadosRepartidor(Repartidor*& repartidor, Pedido pedido) {
@@ -356,39 +336,33 @@ void agregarPedidoListaPedidosEntregadosRepartidor(Repartidor*& repartidor, Pedi
       repartidor->listaPedidosEntregados = new NodoPedido;
       repartidor->listaPedidosEntregados->pedido = pedido;
       repartidor->listaPedidosEntregados->siguiente = NULL;
-      return;
     }
+    else {
+      NodoPedido* actual = repartidor->listaPedidosEntregados;
+      NodoPedido* anterior = repartidor->listaPedidosEntregados;
+      NodoPedido* nuevoNodo = new NodoPedido;
+      nuevoNodo->pedido = pedido;
 
-    NodoPedido* actual = repartidor->listaPedidosEntregados;
-    NodoPedido* anterior = repartidor->listaPedidosEntregados;
-    NodoPedido* nuevoNodo = new NodoPedido;
-    nuevoNodo->pedido = pedido;
-
-    while(actual != NULL && actual->pedido.importe < pedido.importe) {
-      anterior = actual;
-      actual = actual->siguiente;
+      while(actual != NULL && actual->pedido.importe < pedido.importe) {
+        anterior = actual;
+        actual = actual->siguiente;
+      }
+      if (actual == repartidor->listaPedidosEntregados) {
+        nuevoNodo->siguiente = actual; 
+        repartidor->listaPedidosEntregados = nuevoNodo;
+      } else {
+        nuevoNodo->siguiente = actual;
+        anterior->siguiente = nuevoNodo;
+      }
     }
-    if (actual == repartidor->listaPedidosEntregados) {
-      nuevoNodo->siguiente = actual; 
-      repartidor->listaPedidosEntregados = nuevoNodo;
-      return;
-    }
-    nuevoNodo->siguiente = actual;
-    anterior->siguiente = nuevoNodo;
   }
 
 void desencolarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido) {
   if (colaPedidos->ultimo == NULL){
     colaPedidos->primero = NULL;
-    return;
+  } else {
+    NodoPedido* primero = colaPedidos->primero;
+    colaPedidos->primero = colaPedidos->primero->siguiente;
+    delete primero;
   }
-
-  NodoPedido* primero = colaPedidos->primero;
-  colaPedidos->primero = colaPedidos->primero->siguiente;
-  delete primero;
-  // if (colaPedidos->primero == colaPedidos->ultimo) {
-  //   delete colaPedidos->ultimo;
-  //   colaPedidos->primero->siguiente = NULL;
-  //   colaPedidos->ultimo = NULL;
-  // }
 }
