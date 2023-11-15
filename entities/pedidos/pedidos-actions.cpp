@@ -188,6 +188,7 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
       return punteroRepartidor; 
     }
   }
+  return NULL;
 }
 
 void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
