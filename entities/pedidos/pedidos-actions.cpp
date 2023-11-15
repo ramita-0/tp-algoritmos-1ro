@@ -315,33 +315,18 @@ void insertarEnArbol(NodoArbol*& raiz, Pedido pedido){
 }
 
 void agregarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido) {
-  // 0 nodos
-  if (colaPedidos->primero == NULL) {
-    colaPedidos->primero = new NodoPedido;
-    colaPedidos->primero->pedido = pedido;
-    colaPedidos->primero->siguiente = NULL;
-    colaPedidos->ultimo = NULL;
-    return;
-  }
-  // 1 nodo
-  if (colaPedidos->ultimo == NULL) {
-    colaPedidos->ultimo = new NodoPedido;
-    colaPedidos->ultimo->pedido = pedido;
-    colaPedidos->ultimo->siguiente = NULL;
-    colaPedidos->primero->siguiente = colaPedidos->ultimo;
-    return;
-  }
-  // mas de un nodo
-  NodoPedido* actual = colaPedidos->primero;
-  NodoPedido* anterior = colaPedidos->primero;
+  NodoPedido* nuevoPedido = new NodoPedido;
+  nuevoPedido->pedido = pedido;
+  nuevoPedido->siguiente = NULL;
 
-  while (actual != NULL) {
-    anterior = actual;
-    actual = actual->siguiente;
+  if(colaPedidos->ultimo != NULL){
+    colaPedidos->ultimo->siguiente = nuevoPedido;
+    colaPedidos->ultimo = nuevoPedido;
   }
-  anterior->siguiente = new NodoPedido;
-  anterior->siguiente->pedido = pedido;
-  anterior->siguiente->siguiente = NULL;
+  else {
+    colaPedidos->primero = nuevoPedido;
+    colaPedidos->ultimo = colaPedidos->primero;
+  }
 }
 
 void agregarPedidoListaPedidosEntregadosRepartidor(Repartidor*& repartidor, Pedido pedido) {
