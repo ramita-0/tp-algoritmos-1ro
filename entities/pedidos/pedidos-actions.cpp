@@ -188,20 +188,17 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
       return punteroRepartidor; 
     }
   }
+  return NULL;
 }
 
 void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   ListaColaPedidos* actual = listaColaPedidos;
   ListaColaPedidos* anterior = listaColaPedidos;
+  anterior = actual;
 
-  // Ya hay una cola de pedidos con zona y tipo de vehiculo
-  while(actual != NULL) {
-    if (actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == Vehiculos(determinarVehiculoDelPedido(pedido))) {
-      agregarPedidoColaPedidos(actual->colaPedidos, pedido);
-    } else {
-      anterior = actual;
-      actual = actual->siguienteCola;
-    }
+  while(actual != NULL && (actual->zona != pedido.zonaDeEntrega || actual->tipoVehiculo != Vehiculos(determinarVehiculoDelPedido(pedido)))) {
+    anterior = actual;
+    actual = actual->siguienteCola;
   }
   // Llegue al final o lista vacia, tengo que agregar una nueva cola
   if (actual == NULL) {
@@ -215,10 +212,14 @@ void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
     newListaColaPedidos->zona = pedido.zonaDeEntrega;
     newListaColaPedidos->colaPedidos = nuevaColaPedidos;
     newListaColaPedidos->siguienteCola = NULL;
-
-    if (actual == listaColaPedidos) listaColaPedidos = newListaColaPedidos;
-    else anterior->siguienteCola = newListaColaPedidos;
-    return;
+    
+    if (anterior == NULL)
+      listaColaPedidos = newListaColaPedidos;
+    else 
+      anterior->siguienteCola = newListaColaPedidos;
+  }
+  else {
+    agregarPedidoColaPedidos(actual->colaPedidos, pedido);
   }
 }
 
@@ -316,19 +317,18 @@ void insertarEnArbol(NodoArbol*& raiz, Pedido pedido){
 }
 
 void agregarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido) {
-  // 0 nodos
   NodoPedido* nuevoPedido = new NodoPedido;
   nuevoPedido->pedido = pedido;
   nuevoPedido->siguiente = NULL;
-  
+
   if(colaPedidos->ultimo != NULL){
     colaPedidos->ultimo->siguiente = nuevoPedido;
+    colaPedidos->ultimo = nuevoPedido;
   }
-  else{
+  else {
     colaPedidos->primero = nuevoPedido;
+    colaPedidos->ultimo = colaPedidos->primero;
   }
-  colaPedidos->ultimo = nuevoPedido;
- 
 }
 
 void agregarPedidoListaPedidosEntregadosRepartidor(Repartidor*& repartidor, Pedido pedido) {
