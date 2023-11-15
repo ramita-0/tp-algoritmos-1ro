@@ -196,7 +196,6 @@ void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   ListaColaPedidos* anterior = listaColaPedidos;
   anterior = actual;
 
-  // Ya hay una cola de pedidos con zona y tipo de vehiculo
   while(actual != NULL) {
     if (actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == Vehiculos(determinarVehiculoDelPedido(pedido))) {
       agregarPedidoColaPedidos(actual->colaPedidos, pedido);
