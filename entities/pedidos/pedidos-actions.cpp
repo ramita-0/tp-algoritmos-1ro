@@ -188,7 +188,6 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
       return punteroRepartidor; 
     }
   }
-  return NULL; 
 }
 
 void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
@@ -337,39 +336,33 @@ void agregarPedidoListaPedidosEntregadosRepartidor(Repartidor*& repartidor, Pedi
       repartidor->listaPedidosEntregados = new NodoPedido;
       repartidor->listaPedidosEntregados->pedido = pedido;
       repartidor->listaPedidosEntregados->siguiente = NULL;
-      return;
     }
+    else {
+      NodoPedido* actual = repartidor->listaPedidosEntregados;
+      NodoPedido* anterior = repartidor->listaPedidosEntregados;
+      NodoPedido* nuevoNodo = new NodoPedido;
+      nuevoNodo->pedido = pedido;
 
-    NodoPedido* actual = repartidor->listaPedidosEntregados;
-    NodoPedido* anterior = repartidor->listaPedidosEntregados;
-    NodoPedido* nuevoNodo = new NodoPedido;
-    nuevoNodo->pedido = pedido;
-
-    while(actual != NULL && actual->pedido.importe < pedido.importe) {
-      anterior = actual;
-      actual = actual->siguiente;
+      while(actual != NULL && actual->pedido.importe < pedido.importe) {
+        anterior = actual;
+        actual = actual->siguiente;
+      }
+      if (actual == repartidor->listaPedidosEntregados) {
+        nuevoNodo->siguiente = actual; 
+        repartidor->listaPedidosEntregados = nuevoNodo;
+      } else {
+        nuevoNodo->siguiente = actual;
+        anterior->siguiente = nuevoNodo;
+      }
     }
-    if (actual == repartidor->listaPedidosEntregados) {
-      nuevoNodo->siguiente = actual; 
-      repartidor->listaPedidosEntregados = nuevoNodo;
-      return;
-    }
-    nuevoNodo->siguiente = actual;
-    anterior->siguiente = nuevoNodo;
   }
 
 void desencolarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido) {
   if (colaPedidos->ultimo == NULL){
     colaPedidos->primero = NULL;
-    return;
+  } else {
+    NodoPedido* primero = colaPedidos->primero;
+    colaPedidos->primero = colaPedidos->primero->siguiente;
+    delete primero;
   }
-
-  NodoPedido* primero = colaPedidos->primero;
-  colaPedidos->primero = colaPedidos->primero->siguiente;
-  delete primero;
-  // if (colaPedidos->primero == colaPedidos->ultimo) {
-  //   delete colaPedidos->ultimo;
-  //   colaPedidos->primero->siguiente = NULL;
-  //   colaPedidos->ultimo = NULL;
-  // }
 }
