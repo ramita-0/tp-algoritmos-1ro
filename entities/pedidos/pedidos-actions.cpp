@@ -192,23 +192,9 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
 }
 
 void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
-  if(listaColaPedidos == NULL) {
-    ColaPedidos* nuevaColaPedidos = new ColaPedidos;
-    nuevaColaPedidos->primero = NULL;
-    nuevaColaPedidos->ultimo = NULL;
-    agregarPedidoColaPedidos(nuevaColaPedidos, pedido);
-
-    ListaColaPedidos* newListaColaPedidos = new ListaColaPedidos;
-    newListaColaPedidos->tipoVehiculo = Vehiculos(determinarVehiculoDelPedido(pedido));
-    newListaColaPedidos->zona = pedido.zonaDeEntrega;
-    newListaColaPedidos->colaPedidos = nuevaColaPedidos;
-    listaColaPedidos = newListaColaPedidos;
-
-    return;
-  }
-
   ListaColaPedidos* actual = listaColaPedidos;
   ListaColaPedidos* anterior = listaColaPedidos;
+  anterior = actual;
 
   // Ya hay una cola de pedidos con zona y tipo de vehiculo
   while(actual != NULL) {
@@ -219,20 +205,19 @@ void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
     anterior = actual;
     actual = actual->siguienteCola;
   }
-  // Llegue al final, tengo que agregar una nueva cola
+  // Llegue al final o lista vacia, tengo que agregar una nueva cola
   if (actual == NULL) {
-  
-    ColaPedidos* newColaPedidos = new ColaPedidos;
-    newColaPedidos->primero = NULL;
-    newColaPedidos->ultimo = NULL;
-    agregarPedidoColaPedidos(newColaPedidos, pedido);
-    
+    ColaPedidos* nuevaColaPedidos = new ColaPedidos;
+    nuevaColaPedidos->primero = NULL;
+    nuevaColaPedidos->ultimo = NULL;
+    agregarPedidoColaPedidos(nuevaColaPedidos, pedido);
+
     ListaColaPedidos* newListaColaPedidos = new ListaColaPedidos;
-    newListaColaPedidos->tipoVehiculo = Vehiculos(determinarVehiculoDelPedido(pedido)); 
+    newListaColaPedidos->tipoVehiculo = Vehiculos(determinarVehiculoDelPedido(pedido));
     newListaColaPedidos->zona = pedido.zonaDeEntrega;
-    newListaColaPedidos->colaPedidos = newColaPedidos;
-    
-    anterior->siguienteCola = newListaColaPedidos;
+    newListaColaPedidos->colaPedidos = nuevaColaPedidos;
+    if (actual == listaColaPedidos) listaColaPedidos = newListaColaPedidos;
+    else anterior->siguienteCola = newListaColaPedidos;
     return;
   }
 }
