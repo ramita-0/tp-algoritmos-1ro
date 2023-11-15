@@ -194,16 +194,15 @@ Repartidor* buscarRepartidor(int dniRepartidor, Repartidor repartidores[], int c
 void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
   ListaColaPedidos* actual = listaColaPedidos;
   ListaColaPedidos* anterior = listaColaPedidos;
-  anterior = actual;
 
   // Ya hay una cola de pedidos con zona y tipo de vehiculo
   while(actual != NULL) {
     if (actual->zona == pedido.zonaDeEntrega && actual->tipoVehiculo == Vehiculos(determinarVehiculoDelPedido(pedido))) {
       agregarPedidoColaPedidos(actual->colaPedidos, pedido);
-      return;
+    } else {
+      anterior = actual;
+      actual = actual->siguienteCola;
     }
-    anterior = actual;
-    actual = actual->siguienteCola;
   }
   // Llegue al final o lista vacia, tengo que agregar una nueva cola
   if (actual == NULL) {
@@ -216,6 +215,8 @@ void agregarPedido(ListaColaPedidos*& listaColaPedidos, Pedido pedido) {
     newListaColaPedidos->tipoVehiculo = Vehiculos(determinarVehiculoDelPedido(pedido));
     newListaColaPedidos->zona = pedido.zonaDeEntrega;
     newListaColaPedidos->colaPedidos = nuevaColaPedidos;
+    newListaColaPedidos->siguienteCola = NULL;
+
     if (actual == listaColaPedidos) listaColaPedidos = newListaColaPedidos;
     else anterior->siguienteCola = newListaColaPedidos;
     return;
@@ -317,8 +318,10 @@ void insertarEnArbol(NodoArbol*& raiz, Pedido pedido){
 
 void agregarPedidoColaPedidos(ColaPedidos*& colaPedidos, Pedido pedido) {
   // 0 nodos
-  NodoPedido*nuevoPedido = new NodoPedido;
+  NodoPedido* nuevoPedido = new NodoPedido;
+  nuevoPedido->pedido = pedido;
   nuevoPedido->siguiente = NULL;
+  
   if(colaPedidos->ultimo != NULL){
     colaPedidos->ultimo->siguiente = nuevoPedido;
   }
